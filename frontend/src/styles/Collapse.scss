@@ -1,0 +1,52 @@
+@import "./globalStyle";
+
+@mixin stylesParaList {
+    margin: 19px 20px;
+    color: $primary-color;
+    font-size: 12px;
+    @media screen and (min-width: 1140px) {
+        font-size: 18px;
+    }
+}
+.collapses {
+    @include globalMargin();
+    @include maxWidth();
+    & .collapseContainer {
+        max-width: 1023px;
+        margin: auto;
+        &__collapse {
+            margin-bottom: 20px;
+            @media screen and (min-width: 1023px) {
+                max-width: 1023px;
+            }
+            @media screen and (min-width: 1144px) {
+                margin: auto;
+                margin-bottom: 35px;
+            }
+
+            & .collapseContent {
+                // initialisation du collapse fermé avec une max-height de 0px
+                max-height: 0;
+                // initialisation de la transition du collapse fermé en 0.6s avec une acélération au début et à la fin
+                transition: max-height 0.6s ease-in-out;
+                overflow: hidden;
+                position: relative;
+                top: -4px;
+                background-color: $bg-color;
+                border-radius: 0 0 5px 5px;
+                &__para {
+                    @include stylesParaList();
+                }
+                &__list {
+                    @include stylesParaList();
+                    padding: 0;
+                    list-style: none;
+                }
+            }
+            & .open {
+                // Modification de la max-height du collapse une fois que la classe open lui est ajoutée
+                max-height: 350px;
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+$primary-color: #ff6060;
+$secondary-color: #ffffff;
+$tertiary-color: #000000;
+$bg-color: #f6f6f6;
+
+@mixin globalMargin {
+    margin-left: 20px;
+    margin-right: 20px;
+    @media screen and (min-width: 620px) {
+        margin-left: 60px;
+        margin-right: 60px;
+    }
+}
+
+@mixin maxWidth {
+    max-width: 1440px;
+}
+
+@mixin maxWidthContainer {
+    max-width: 1240px;
+}
+
+@mixin borderRadius10px {
+    border-radius: 10px;
+}

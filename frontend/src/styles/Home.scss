@@ -1,0 +1,45 @@
+@import "./globalStyle";
+
+.wrapperGallery {
+    @include globalMargin;
+    margin-bottom: 27px;
+    display: grid;
+    overflow: scroll;
+    height: 805px;
+    gap: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(20, 1fr);
+
+    @media screen and (min-width: 620px) {
+        margin-bottom: 50px;
+        padding: 36px 30px 23px 30px;
+        height: 830px;
+        max-width: 1140px;
+        justify-content: center;
+        border-radius: 25px;
+        gap: 30px;
+        background-color: $bg-color;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+    }
+
+    @media screen and (min-width: 1240px) {
+        height: 855px;
+        gap: 45px;
+        padding: 56px 50px 43px 50px;
+        // grid-template-columns: repeat(3, 1fr);
+        // grid-template-rows: repeat(7, 1fr);
+    }
+
+    @media screen and (min-width: 1340px) {
+        margin: auto;
+        margin-bottom: 50px;
+    }
+
+    @media screen and (min-width: 1440px) {
+        height: 755px;
+        gap: 60px;
+        grid-template-columns: repeat(3, 340px);
+        grid-template-rows: repeat(7, 340px);
+    }
+}
