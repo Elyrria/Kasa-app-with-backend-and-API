@@ -1,0 +1,31 @@
+@import "../../styles/globalStyle";
+
+.footer {
+    max-height: 209px;
+    background-color: $tertiary-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    
+    &__logo {
+        margin-top: 66px;
+        width: 122px;
+
+    }
+
+    &__para {
+        text-align: center;
+        width: 40%;
+        color: $secondary-color;
+        font-size: 12px;
+        margin-bottom: 29px;
+        @media screen and (min-width: 620px) {
+            font-size: 16px;
+        }
+        @media screen and (min-width: 1240px) {
+            font-size: 24px;
+        }
+    }
+}

@@ -1,0 +1,62 @@
+@import "../../styles/globalStyle";
+
+.container {
+    @include globalMargin();
+    @include maxWidth();
+    &__titlesTagsHost {
+        @media screen and (min-width: 1360px) {
+            @include maxWidthContainer();
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+        }
+    }
+}
+
+.titles {
+    &__titleHousing {
+        margin: 0;
+        margin-bottom: 5px;
+        font-size: 18px;
+        @media screen and (min-width: 1145px) {
+            font-size: 24px;
+        }
+        @media screen and (min-width: 1360px) {
+            font-size: 36px;
+            margin-bottom: 2px;
+        }
+    }
+    &__location {
+        margin: 0;
+        margin-bottom: 10px;
+        font-size: 14px;
+        @media screen and (min-width: 1145px) {
+            font-size: 16px;
+        }
+        @media screen and (min-width: 1360px) {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.collapsesHousings {
+    margin: 0;
+    @media screen and (min-width: 1145px) {
+        @include maxWidthContainer();
+        display: flex;
+        justify-content: space-between;
+        gap: 76px;
+        @media screen and (min-width: 1360px) {
+            margin: auto;
+        }
+    }
+    & .collapseContainer {
+        //Permet d'éviter que les collapse ne reste pas à leur point d'ancrage (margin: auto; dans le composant collapse)
+        @media screen and (min-width: 1145px) {
+            width: 50%;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+@import "../../styles/globalStyle";
+
+.header {
+    margin: 27px 20px 22px 20px;
+    @include maxWidth();
+    @media screen and (min-width: 620px) {
+        margin: 50px 60px 43px 60px;
+    }
+
+    &__nav {
+        @include maxWidthContainer();
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: auto;
+        @media screen and (max-width: 245px) {
+            flex-direction: column;
+        }
+
+        & h1 {
+            margin: 0;
+            @media screen and (max-width: 245px) {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        & img {
+            width: 75%;
+            @media screen and (max-width: 245px) {
+                min-width: 65px;
+            }
+        }
+        & .nav__links {
+            display: flex;
+            gap: 20px;
+
+            & a {
+                font-size: 12px;
+                text-wrap: nowrap;
+                text-decoration: none;
+                @media screen and (min-width: 374px) {
+                    font-size: 16px;
+                }
+                @media screen and (min-width: 763px) {
+                    font-size: 24px;
+                }
+            }
+            & .active {
+                text-decoration: underline;
+            }
+        }
+    }
+}
