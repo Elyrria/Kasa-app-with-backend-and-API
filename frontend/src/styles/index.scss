@@ -1,10 +1,10 @@
 @import "./globalStyle";
 
 body {
-    @include maxWidth();
+    @include maxWidth;
+    @include fontFamily;
     box-sizing: border-box;
     margin: auto;
-    font-family: "Montserrat", sans-serif;
     font-weight: 500;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

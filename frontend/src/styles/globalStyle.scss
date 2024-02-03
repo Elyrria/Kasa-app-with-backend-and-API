@@ -23,3 +23,7 @@ $bg-color: #f6f6f6;
 @mixin borderRadius10px {
     border-radius: 10px;
 }
+
+@mixin fontFamily {
+    font-family: "Montserrat", sans-serif;
+}

@@ -1,34 +1,32 @@
 import Collapse from "../../components/Collapse"
 import { useEffect } from "react"
-
-const dataAbout = {
-    names: ["Fiabilité", "Respect", "Service", "Sécurité"],
-    descriptions: [
-        "Les annonces postées sur Kasa garantissent une fiabilité totale. Les photos sont conformes aux logements et toutes les inofrmations sont régulièrement vérifiées par nos équipes.",
-        "La bienveillance fait partie des valeurs fondatrices de Kasa. Tout comportement discriminatoire ou de perturbation du voisinage entrainera une expulsion de la plateforme.",
-        "La bienveillance fait partie des valeurs fondatrices de Kasa. Tout comportement discriminatoire ou de perturbation du voisinage entrainera une expulsion de la plateforme.",
-        "La sécurité est la priorité de Kasa. Aussi bien pour nos hôtes que pour les voyageurs. Chaque logement correspond aux critères de sécurité établis par nos services. En laissant une note aussi bien à l'hôte qu'au locataire, cela permet à nos équipes de vérifier que les standards sont bien respectés. Nous organisons également des ateliers sur la sécurité domestique pour nos hôtes.",
-    ],
-}
+import { useFetch } from "../../utils/Hooks/"
 
 function About() {
+    const { data, loading } = useFetch("http://localhost:3001/api/about")
+    const abouts = data.abouts
+
     useEffect(() => {
         document.title = "À propos"
     }, [])
 
-    return (
-        <main>
-            <div className="collapses">
-                {dataAbout.names.map((name, index) => (
-                    <Collapse
-                        key={`${name}-${index}`}
-                        name={name}
-                        description={dataAbout.descriptions[index]}
-                    />
-                ))}
-            </div>
-        </main>
-    )
+    if (loading || !abouts) {
+        return <div>Loading ...</div>
+    } else {
+        return (
+            <main>
+                <div className="collapses">
+                    {abouts.map((about, index) => (
+                        <Collapse
+                            key={`${about.name}-${index}`}
+                            name={about.name}
+                            description={about.description}
+                        />
+                    ))}
+                </div>
+            </main>
+        )
+    }
 }
 
 export default About

@@ -30,19 +30,27 @@ function Header() {
                         Accueil
                     </NavLink>
                     <NavLink
-                        to="/A-Propos"
+                        to="/a_propos"
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "active" : ""
                         }
                     >
                         A propos
                     </NavLink>
+                    <NavLink
+                        to="/login"
+                        className={({ isActive, isPending }) =>
+                            isPending ? "pending" : isActive ? "active" : ""
+                        }
+                    >
+                        Connexion
+                    </NavLink>
                 </div>
             </nav>
             {urlActive === "http://localhost:3000/" ? (
                 <Banner activeBanner={"bannerHome"} />
             ) : (
-                urlActive === "http://localhost:3000/A-Propos" && (
+                urlActive === "http://localhost:3000/a_propos" && (
                     <Banner activeBanner={"bannerAbout"} />
                 )
             )}

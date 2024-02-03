@@ -8,7 +8,8 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Error from "./pages/Error"
 import Housings from "./pages/Housings"
-import {DataProvider} from "./utils/Context"
+import LogIn from "./pages/LogIn"
+import { DataProvider } from "./utils/Context"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
@@ -18,7 +19,8 @@ root.render(
             <DataProvider>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/a-Propos" element={<About />} />
+                    <Route path="/a_propos" element={<About />} />
+                    <Route path="/login" element={<LogIn />}></Route>
                     <Route path={"/hebergement/:id"} element={<Housings />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
