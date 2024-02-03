@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const housingRoutes = require("./router/housing")
 const aboutRoutes = require("./router/about")
+const userRoutes = require("./router/user")
 
 const app = express()
 
@@ -36,5 +37,6 @@ app.use(bodyParser.json())
 // Utilisation des routes housingRoutes pour le début de route "/api/housing"
 app.use("/api/housing", housingRoutes)
 app.use("/api/about", aboutRoutes)
+app.use("/api/auth", userRoutes)
 
 module.exports = app

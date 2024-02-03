@@ -17,5 +17,5 @@ exports.creatAbout = (req, res, next) => {
     about
         .save()
         .then((about) => res.status(201).json({ about }))
-        .catch((error) => res.status(400).json({ error }))
+        .catch((error) => res.status(500).json({ error }))
 }
