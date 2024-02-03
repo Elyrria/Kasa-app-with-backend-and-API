@@ -1,3 +1,4 @@
+//? Import du paquet
 const mongoose = require("mongoose")
 
 const housingSchema = mongoose.Schema({
