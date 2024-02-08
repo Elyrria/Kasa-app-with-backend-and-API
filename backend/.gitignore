@@ -1,4 +1,13 @@
+# dependencies
 /node_modules
 
+#environement 
+.env
+
+#config
 .prettierrc
 .eslintrc
+
+
+#dossier
+# /images

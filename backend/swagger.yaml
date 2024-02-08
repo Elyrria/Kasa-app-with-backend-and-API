@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+    description: |
+        API du site Kasa. Ici on retrouvera les différentes routes pour la récupération/modification/suppression d'un hébérgement. Mais aussi pour l'authentification.
+    version: "1.0.0"
+    title: Kasa App
+    contact:
+        email: quentindumon352a@gmail.com
+    license:
+        name: Apache 2.0
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+    # Added by API Auto Mocking Plugin
+    # Added by API Auto Mocking Plugin
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/QUENTINDUMON352A/KasaApp/1.0.0
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/QUENTINDUMON352A/MonVieuxGrimoire/1.0.0
+    - url: "http://localhost:4000"
+tags:
+    - name: housing
+      description: Tous à-propos des hébérgements
+    - name: user
+      description: Opération à-propos des utilisateurs
+    - name: about
+      description: Opération à-propos des informtaions de la page about
+paths:
+    /api/housing:
+        post:
+            tags:
+                - housing
+            summary: Ajout d'un nouvel hébérgement 👌
+            description: Permet de rajouter un hébérgement dans la base de données avec les éléments fourni dans le body de la requête 📖
+            operationId: addHousing
+            parameters:
+                - name: token
+                  in: header
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "201":
+                    description: Hébérgement créé ✅
+                "400":
+                    description: Requête invalide ⛔️
+                "401":
+                    description: Droits refusés 🛑️
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            cover:
+                              type: string
+                            pictures: 
+                              type: array
+                              items:
+                                type: string
+                            description: 
+                              type: string
+                            host:
+                              type: object
+                              properties: 
+                                name: 
+                                  type: string
+                                picture:    
+                                  type: string
+                                rating: 
+                                  type: number
+                            equipements:
+                              type: array
+                              items:
+                                type: string
+                            tags: 
+                              type: array
+                              items:
+                                type: string 
+
+        get:
+            tags:
+                - housing
+            summary: Récupèration de tous les hébérgements 📚
+            description: Récupération de tous les hébérgement depuis la base de données 🛜
+            operationId: findHousings
+            responses:
+                "200":
+                    description: Opération réussite ✅
+                    content:
+                        application/json:
+                            schema:
+                              type: array
+                              items:
+                                  type: object
+                                  properties:
+                                      title:
+                                          type: string
+                                      cover:
+                                          type: string
+                                      pictures: 
+                                          type: array
+                                          items:
+                                            type: string
+                                      description: 
+                                          type: string
+                                      host:
+                                          type: object
+                                          properties: 
+                                              name: 
+                                                  type: string
+                                              picture:    
+                                                  type: string
+                                      rating: 
+                                          type: number
+                                      equipements:
+                                          type: array
+                                          items:
+                                            type: string
+                                      tags: 
+                                          type: array
+                                          items:
+                                            type: string
+                "400":
+                    description: Requête invalide ❌
+    /api/housing/:id:
+        get:
+            tags:
+                - housing
+            summary: Récupèration d'un hébérgement avec son id spécifié dans les paramètres de la requête
+            operationId: findOneHousing
+            responses:
+                "200":
+                    description: Opération réussite ✅
+                    content:
+                        application/json:
+                          schema:
+                            type: object
+                            properties:
+                              title:
+                                type: string
+                              cover:
+                                type: string
+                              pictures: 
+                                type: array
+                                items:
+                                  type: string
+                              description: 
+                                type: string
+                              host:
+                                type: object
+                                properties: 
+                                  name: 
+                                    type: string
+                                  picture:    
+                                    type: string
+                                  rating: 
+                                    type: number
+                              equipements:
+                                type: array
+                                items:
+                                  type: string
+                              tags: 
+                                type: array
+                                items:
+                                  type: string
+
+                "400":
+                    description: Requête invalide ❌
+                "404":
+                    description: Hébérgement non trouvé 🤷‍♂
+        delete:
+            tags:
+                - housing
+            summary: Suppression d'un hébérgement 🛑
+            description: Permet de supprimer un hébérgement avec l'id passé en paramètres ⚙️⚙️⚙️ de la requête ❌
+            operationId: deleteHousing
+            parameters:
+                - name: token
+                  in: header
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Réquête réussie ✅
+                "400":
+                    description: Requête invalide ⛔️
+                "401":
+                    description: Droits refusés 🛑️
+                "404":
+                    description: Hébérgement non trouvé 🤷‍♂
+            security:
+                - bearerAuth: []
+        put:
+            tags:
+                - housing
+            summary: Mise à jour d'un hébérgement existant ♻️
+            description: Permet de mettre à jour l'hébérgement spécifié dans les paramètres ⚙️⚙️⚙️ de la requète 👌
+            operationId: updateHousing
+            parameters:
+                - name: token
+                  in: header
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Réquête réussie ✅
+                "400":
+                    description: Requête invalide ⛔️
+                "401":
+                    description: Droits refusés 🛑️
+                "404":
+                    description: Hébérgement non trouvé 🤷‍♂
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                book:
+                                    type: string
+                                image:
+                                    type: string
+    /api/about:
+        post:
+            tags:
+                - about
+            summary: Ajout d'un nouvelle donnée about
+            description: Permet d'ajouterr une nouvelle donnée about. Requête à effectuer depuis postman ou directement avec la fonctionnalité de swagger 💯
+            operationId: createAbout
+            parameters:
+                - name: token
+                  in: header
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                description:
+                                    type: string
+            responses:
+                "201":
+                    description: About ajouté ✅
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                "400":
+                    description: Requête invalide ⛔️
+                "401":
+                    description: Droits refusés 🛑️
+            security:
+                - bearerAuth: []
+    /api/auth/signup:
+        post:
+            tags:
+                - user
+            summary: Création dun utilisateur 👨‍💻
+            description: Route permettant d'enregistrer un utilisateur dans la base de données avec l'email et le password dans les paramètres ⚙️⚙️⚙️ de la requête 🛣 ️
+            operationId: createUser
+            responses:
+                "201":
+                    description: Utilisateur créé ✅
+                "400":
+                    description: Requête invalide ⛔️
+                "500":
+                    description: Erreur serveur ⛔️
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+    /api/auth/login:
+        post:
+            tags:
+                - user
+            summary: Connexion utilisateur 👨‍💻
+            description: Permet de se connecter et de récupérer le token de connexion dans la réponse 👌
+            operationId: loginUser
+            responses:
+                "200":
+                    description: Opération réussite ✅
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    userId:
+                                        type: string
+                                    token:
+                                        type: string
+                "401":
+                    description: Paire identifiant/mot de passe inccorrecte 🛑
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
