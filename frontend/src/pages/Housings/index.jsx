@@ -7,8 +7,7 @@ import "./Housing.scss"
 import { useEffect, useContext } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { useFetch } from "../../utils/Hooks"
-import { SharedDataContext } from "../../utils/Context"
-
+import { SharedDataContext } from "../../utils/Context/HousingsDatas/"
 function Housings() {
     //récupération des données depuis le context
     const [dataHousings] = useContext(SharedDataContext)

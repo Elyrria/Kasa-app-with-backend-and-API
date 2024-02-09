@@ -14,9 +14,7 @@ servers:
     # Added by API Auto Mocking Plugin
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/QUENTINDUMON352A/KasaApp/1.0.0
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/QUENTINDUMON352A/MonVieuxGrimoire/1.0.0
-    - url: "http://localhost:4000"
+    - url: "http://localhost:3001"
 tags:
     - name: housing
       description: Tous à-propos des hébérgements
@@ -52,35 +50,35 @@ paths:
                 content:
                     application/json:
                         schema:
-                          type: object
-                          properties:
-                            title:
-                              type: string
-                            cover:
-                              type: string
-                            pictures: 
-                              type: array
-                              items:
-                                type: string
-                            description: 
-                              type: string
-                            host:
-                              type: object
-                              properties: 
-                                name: 
-                                  type: string
-                                picture:    
-                                  type: string
-                                rating: 
-                                  type: number
-                            equipements:
-                              type: array
-                              items:
-                                type: string
-                            tags: 
-                              type: array
-                              items:
-                                type: string 
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                cover:
+                                    type: string
+                                pictures:
+                                    type: array
+                                    items:
+                                        type: string
+                                description:
+                                    type: string
+                                host:
+                                    type: object
+                                    properties:
+                                        name:
+                                            type: string
+                                        picture:
+                                            type: string
+                                        rating:
+                                            type: number
+                                equipements:
+                                    type: array
+                                    items:
+                                        type: string
+                                tags:
+                                    type: array
+                                    items:
+                                        type: string
 
         get:
             tags:
@@ -94,85 +92,92 @@ paths:
                     content:
                         application/json:
                             schema:
-                              type: array
-                              items:
-                                  type: object
-                                  properties:
-                                      title:
-                                          type: string
-                                      cover:
-                                          type: string
-                                      pictures: 
-                                          type: array
-                                          items:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        title:
                                             type: string
-                                      description: 
-                                          type: string
-                                      host:
-                                          type: object
-                                          properties: 
-                                              name: 
-                                                  type: string
-                                              picture:    
-                                                  type: string
-                                      rating: 
-                                          type: number
-                                      equipements:
-                                          type: array
-                                          items:
+                                        cover:
                                             type: string
-                                      tags: 
-                                          type: array
-                                          items:
+                                        pictures:
+                                            type: array
+                                            items:
+                                                type: string
+                                        description:
                                             type: string
+                                        host:
+                                            type: object
+                                            properties:
+                                                name:
+                                                    type: string
+                                                picture:
+                                                    type: string
+                                        rating:
+                                            type: number
+                                        equipements:
+                                            type: array
+                                            items:
+                                                type: string
+                                        tags:
+                                            type: array
+                                            items:
+                                                type: string
                 "400":
                     description: Requête invalide ❌
-    /api/housing/:id:
+    /api/housing/{id}:
+        parameters:
+            - name: id
+              in: path
+              description: ID de l'hébergement à récupérer
+              required: true
+              schema:
+                  type: string
         get:
             tags:
                 - housing
-            summary: Récupèration d'un hébérgement avec son id spécifié dans les paramètres de la requête
+            summary: Récupèration d'un hébergement avec son id spécifié dans les paramètres de la requête
             operationId: findOneHousing
             responses:
                 "200":
                     description: Opération réussite ✅
                     content:
                         application/json:
-                          schema:
-                            type: object
-                            properties:
-                              title:
-                                type: string
-                              cover:
-                                type: string
-                              pictures: 
-                                type: array
-                                items:
-                                  type: string
-                              description: 
-                                type: string
-                              host:
+                            schema:
                                 type: object
-                                properties: 
-                                  name: 
-                                    type: string
-                                  picture:    
-                                    type: string
-                                  rating: 
-                                    type: number
-                              equipements:
-                                type: array
-                                items:
-                                  type: string
-                              tags: 
-                                type: array
-                                items:
-                                  type: string
+                                properties:
+                                    title:
+                                        type: string
+                                    cover:
+                                        type: string
+                                    pictures:
+                                        type: array
+                                        items:
+                                            type: string
+                                    description:
+                                        type: string
+                                    host:
+                                        type: object
+                                        properties:
+                                            name:
+                                                type: string
+                                            picture:
+                                                type: string
+                                            rating:
+                                                type: number
+                                    equipements:
+                                        type: array
+                                        items:
+                                            type: string
+                                    tags:
+                                        type: array
+                                        items:
+                                            type: string
 
                 "400":
                     description: Requête invalide ❌
                 "404":
-                    description: Hébérgement non trouvé 🤷‍♂
+                    description: Hébergement non trouvé 🤷‍♂
         delete:
             tags:
                 - housing

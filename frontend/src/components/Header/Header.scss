@@ -1,5 +1,16 @@
 @import "../../styles/globalStyle";
 
+@mixin linkNav {
+    color: $primary-color;
+    font-size: 14px;
+    @media screen and (min-width: 374px) {
+        font-size: 16px;
+    }
+    @media screen and (min-width: 763px) {
+        font-size: 24px;
+    }
+}
+
 .header {
     margin: 27px 20px 22px 20px;
     @include maxWidth();
@@ -14,13 +25,13 @@
         align-items: center;
         justify-content: space-between;
         margin: auto;
-        @media screen and (max-width: 245px) {
+        @media screen and (max-width: 330px) {
             flex-direction: column;
         }
 
         & h1 {
             margin: 0;
-            @media screen and (max-width: 245px) {
+            @media screen and (max-width: 330px) {
                 text-align: center;
                 margin-bottom: 10px;
             }
@@ -28,23 +39,30 @@
 
         & img {
             width: 75%;
-            @media screen and (max-width: 245px) {
+            @media screen and (max-width: 330px) {
                 min-width: 65px;
             }
         }
         & .nav__links {
             display: flex;
             gap: 20px;
-
+            @media screen and (max-width: 265px) {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
             & a {
-                font-size: 12px;
+                @include linkNav();
                 text-wrap: nowrap;
                 text-decoration: none;
-                @media screen and (min-width: 374px) {
-                    font-size: 16px;
-                }
-                @media screen and (min-width: 763px) {
-                    font-size: 24px;
+            }
+            & .logOut {
+                @include fontFamily();
+                @include linkNav();
+                border: none;
+                background-color: $secondary-color;
+                padding: 0;
+                &:hover {
+                    cursor: pointer;
                 }
             }
             & .active {

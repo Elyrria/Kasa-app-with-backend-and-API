@@ -1,7 +1,7 @@
 import Card from "../../components/Card"
 import "./Home.scss"
 import { useEffect, useContext } from "react"
-import { SharedDataContext } from "../../utils/Context"
+import { SharedDataContext } from "../../utils/Context/HousingsDatas/"
 
 function Home() {
     //récupération des données depuis le context

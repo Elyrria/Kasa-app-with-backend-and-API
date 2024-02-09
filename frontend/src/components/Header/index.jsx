@@ -1,17 +1,38 @@
 import logo from "../../assets/logo-red-kasa.svg"
 import Banner from "../Banner"
 import "./Header.scss"
-import { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { useContext, useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
+import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
 
 function Header() {
     const [urlActive, setUrlActive] = useState("")
+    const { isLogin, dataLogin, setIsLogin, setDataLogin } = useContext(
+        SharedDataLoginContext
+    )
     const location = useLocation()
+    const navigate = useNavigate() // Utilisaton du hook navigate pour la rédirection
+
+    const onClick = () => {
+        const updateDataLogin = { ...dataLogin }
+        updateDataLogin.userId = null
+        updateDataLogin.token = null
+        sessionStorage.removeItem("userData")
+        setIsLogin(false) // L'utilisateur n'est plus connecté on passe donc la valeur à false
+        setDataLogin(updateDataLogin) // On vide les données de l'utilisateur connecté
+        navigate("/") // Redirection vers la page d'accueil
+    }
 
     useEffect(() => {
         setUrlActive(window.location.href)
-    }, [location]) // Effectue l'effet des que l'url change change
+        const userData = JSON.parse(sessionStorage.getItem("userData"))
+        if (userData && typeof userData === "object") {
+            setDataLogin(userData)
+            setIsLogin(true)
+            return
+        }
+    }, [location, setDataLogin, setIsLogin]) // Effectue l'effet des que l'url change change
 
     return (
         <header className="header">
@@ -37,14 +58,20 @@ function Header() {
                     >
                         A propos
                     </NavLink>
-                    <NavLink
-                        to="/login"
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "active" : ""
-                        }
-                    >
-                        Connexion
-                    </NavLink>
+                    {!isLogin ? (
+                        <NavLink
+                            to="/login"
+                            className={({ isActive, isPending }) =>
+                                isPending ? "pending" : isActive ? "active" : ""
+                            }
+                        >
+                            Connexion
+                        </NavLink>
+                    ) : (
+                        <button className="logOut" onClick={onClick}>
+                            Déconnexion
+                        </button>
+                    )}
                 </div>
             </nav>
             {urlActive === "http://localhost:3000/" ? (
