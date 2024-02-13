@@ -50,35 +50,35 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            properties:
-                                title:
-                                    type: string
-                                cover:
-                                    type: string
-                                pictures:
-                                    type: array
-                                    items:
-                                        type: string
-                                description:
-                                    type: string
-                                host:
-                                    type: object
-                                    properties:
-                                        name:
-                                            type: string
-                                        picture:
-                                            type: string
-                                        rating:
-                                            type: number
-                                equipements:
-                                    type: array
-                                    items:
-                                        type: string
-                                tags:
-                                    type: array
-                                    items:
-                                        type: string
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            cover:
+                              type: string
+                            pictures: 
+                              type: array
+                              items:
+                                type: string
+                            description: 
+                              type: string
+                            host:
+                              type: object
+                              properties: 
+                                name: 
+                                  type: string
+                                picture:    
+                                  type: string
+                                rating: 
+                                  type: number
+                            equipements:
+                              type: array
+                              items:
+                                type: string
+                            tags: 
+                              type: array
+                              items:
+                                type: string 
 
         get:
             tags:
@@ -92,37 +92,37 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        title:
+                              type: array
+                              items:
+                                  type: object
+                                  properties:
+                                      title:
+                                          type: string
+                                      cover:
+                                          type: string
+                                      pictures: 
+                                          type: array
+                                          items:
                                             type: string
-                                        cover:
+                                      description: 
+                                          type: string
+                                      host:
+                                          type: object
+                                          properties: 
+                                              name: 
+                                                  type: string
+                                              picture:    
+                                                  type: string
+                                      rating: 
+                                          type: number
+                                      equipements:
+                                          type: array
+                                          items:
                                             type: string
-                                        pictures:
-                                            type: array
-                                            items:
-                                                type: string
-                                        description:
+                                      tags: 
+                                          type: array
+                                          items:
                                             type: string
-                                        host:
-                                            type: object
-                                            properties:
-                                                name:
-                                                    type: string
-                                                picture:
-                                                    type: string
-                                        rating:
-                                            type: number
-                                        equipements:
-                                            type: array
-                                            items:
-                                                type: string
-                                        tags:
-                                            type: array
-                                            items:
-                                                type: string
                 "400":
                     description: Requête invalide ❌
     /api/housing/{id}:
@@ -132,52 +132,52 @@ paths:
               description: ID de l'hébergement à récupérer
               required: true
               schema:
-                  type: string
+                type: string
         get:
-            tags:
-                - housing
-            summary: Récupèration d'un hébergement avec son id spécifié dans les paramètres de la requête
-            operationId: findOneHousing
-            responses:
-                "200":
-                    description: Opération réussite ✅
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    title:
-                                        type: string
-                                    cover:
-                                        type: string
-                                    pictures:
-                                        type: array
-                                        items:
-                                            type: string
-                                    description:
-                                        type: string
-                                    host:
-                                        type: object
-                                        properties:
-                                            name:
-                                                type: string
-                                            picture:
-                                                type: string
-                                            rating:
-                                                type: number
-                                    equipements:
-                                        type: array
-                                        items:
-                                            type: string
-                                    tags:
-                                        type: array
-                                        items:
-                                            type: string
-
-                "400":
-                    description: Requête invalide ❌
-                "404":
-                    description: Hébergement non trouvé 🤷‍♂
+          tags:
+            - housing
+          summary: Récupèration d'un hébergement avec son id spécifié dans les paramètres de la requête
+          operationId: findOneHousing
+          responses:
+            "200":
+              description: Opération réussite ✅
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      cover:
+                        type: string
+                      pictures:
+                        type: array
+                        items:
+                          type: string
+                      description:
+                        type: string
+                      host:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          picture:
+                            type: string
+                          rating:
+                            type: number
+                      equipements:
+                        type: array
+                        items:
+                          type: string
+                      tags:
+                        type: array
+                        items:
+                          type: string
+        
+            "400":
+              description: Requête invalide ❌
+            "404":
+              description: Hébergement non trouvé 🤷‍♂
         delete:
             tags:
                 - housing
@@ -185,6 +185,11 @@ paths:
             description: Permet de supprimer un hébérgement avec l'id passé en paramètres ⚙️⚙️⚙️ de la requête ❌
             operationId: deleteHousing
             parameters:
+                - name: userId
+                  in: header
+                  required: true
+                  schema:
+                    type: string
                 - name: token
                   in: header
                   required: true
@@ -208,6 +213,11 @@ paths:
             description: Permet de mettre à jour l'hébérgement spécifié dans les paramètres ⚙️⚙️⚙️ de la requète 👌
             operationId: updateHousing
             parameters:
+                - name: userId
+                  in: header
+                  required: true
+                  schema:
+                    type: string
                 - name: token
                   in: header
                   required: true

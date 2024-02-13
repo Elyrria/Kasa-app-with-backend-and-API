@@ -9,6 +9,7 @@ import Footer from "./components/Footer"
 import Error from "./pages/Error"
 import Housings from "./pages/Housings"
 import LogIn from "./pages/LogIn"
+import HousingEditor from "./pages/HousingEditor"
 import { DataProvider } from "./utils//Context/HousingsDatas"
 import { DataLoginProvider } from "./utils/Context/UserLogin"
 
@@ -27,6 +28,10 @@ root.render(
                             path={"/hebergement/:id"}
                             element={<Housings />}
                         />
+                        <Route
+                            path="/edition_hebergement"
+                            element={<HousingEditor />}
+                        ></Route>
                         <Route path="*" element={<Error />} />
                     </Routes>
                 </DataProvider>

@@ -67,7 +67,7 @@ function LogIn() {
                     />
                 </div>
                 <div className="formContainer__champs">
-                    <button className="formContainer__button">Connexion</button>
+                    <button className="submitButton">Connexion</button>
                 </div>
             </form>
         </main>

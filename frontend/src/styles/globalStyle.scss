@@ -27,3 +27,17 @@ $bg-color: #f6f6f6;
 @mixin fontFamily {
     font-family: "Montserrat", sans-serif;
 }
+
+@mixin globalInput {
+    @include borderRadius10px;
+    overflow: hidden;
+    color: $primary-color;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    border: 2px solid $primary-color;
+    width: 100%;
+    font-size: 20px;
+    @media screen and (min-width: 375px) {
+        font-size: 16px;
+    }
+}

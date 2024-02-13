@@ -11,7 +11,7 @@ const housingSchema = mongoose.Schema({
         picture: { type: String, required: true },
     },
     rating: { type: Number, required: true },
-    equipements: { type: [String], required: true },
+    equipments: { type: [String], required: true },
     tags: { type: [String], required: true },
 })
 

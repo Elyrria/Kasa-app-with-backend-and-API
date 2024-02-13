@@ -21,31 +21,11 @@
 
         & .formContainer__inputs {
             @include borderRadius10px;
-            box-sizing: border-box;
-            padding: 5px 20px;
-            border: 2px $primary-color solid;
-            color: $primary-color;
+            @include globalInput;
             background-color: $bg-color;
             height: 50px;
-            width: 100%;
             max-width: 400px;
             font-size: 20px;
-        }
-
-        & .formContainer__button {
-            @include fontFamily;
-            @include borderRadius10px;
-            background-color: $primary-color;
-            border: none;
-            font-size: 18px;
-            font-weight: bold;
-            color: $secondary-color;
-            max-width: 300px;
-            width: 100%;
-            height: 50px;
-            &:active {
-                opacity: 0.5;
-            }
         }
     }
 }

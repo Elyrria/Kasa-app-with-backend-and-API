@@ -28,12 +28,16 @@
         @media screen and (max-width: 330px) {
             flex-direction: column;
         }
+        @media screen and (max-width: 415px) {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
         & h1 {
             margin: 0;
-            @media screen and (max-width: 330px) {
-                text-align: center;
+            @media screen and (max-width: 415px) {
                 margin-bottom: 10px;
+                text-align: center;
             }
         }
 
@@ -46,10 +50,6 @@
         & .nav__links {
             display: flex;
             gap: 20px;
-            @media screen and (max-width: 265px) {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
             & a {
                 @include linkNav();
                 text-wrap: nowrap;
