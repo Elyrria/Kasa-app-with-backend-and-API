@@ -6,6 +6,7 @@ const housingSchema = mongoose.Schema({
     cover: { type: String, required: true },
     pictures: { type: [String], required: true },
     description: { type: String, required: true },
+    location: { type: String, required: true },
     host: {
         name: { type: String, required: true },
         picture: { type: String, required: true },

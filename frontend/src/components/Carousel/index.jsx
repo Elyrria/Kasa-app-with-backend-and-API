@@ -15,50 +15,66 @@ function Carousel({ pictures, title, id }) {
 
     return (
         <div className="carouselContainer" aria-label="carousel d'images">
-            <div className="carouselContainer__carousel">
-                <button
-                    aria-label="image suivante"
-                    onClick={nextSlide}
-                    className={
-                        pictures.length <= 1
-                            ? "hidden"
-                            : "carousel__btn carousel__btnRight"
-                    }
-                >
-                    <img src={chevronLeft} alt="" className="chevronRight" />
-                </button>
-                {pictures.map((picture, index) => (
-                    <img
-                        key={`${id}-${index}`}
+            {pictures.length === 0 ? (
+                <div className="alternativeCarousel">
+                    Carousel de photo de l'hébérgement
+                </div>
+            ) : (
+                <div className="carouselContainer__carousel">
+                    <button
+                        aria-label="image suivante"
+                        onClick={nextSlide}
                         className={
-                            slide === index ? "carousel__slide" : "hidden"
+                            pictures.length <= 1
+                                ? "hidden"
+                                : "carousel__btn carousel__btnRight"
                         }
-                        src={picture}
-                        alt={title}
-                    />
-                ))}
-                <button
-                    aria-label="image précédente"
-                    onClick={prevSlide}
-                    className={
-                        pictures.length <= 1
-                            ? "hidden"
-                            : "carousel__btn carousel__btnLeft"
-                    }
-                >
-                    <img src={chevronRight} alt="" className="chevronLeft" />
-                </button>
-                <span
-                    aria-label={`image ${slide + 1} sur ${pictures.length}`}
-                    className={
-                        pictures.length <= 1 ? "hidden" : "carousel__indicator"
-                    }
-                >
-                    <span aria-hidden="true">{`${slide + 1}/${
-                        pictures.length
-                    }`}</span>
-                </span>
-            </div>
+                    >
+                        <img
+                            src={chevronLeft}
+                            alt=""
+                            className="chevronRight"
+                        />
+                    </button>
+                    {pictures.map((picture, index) => (
+                        <img
+                            key={`${id}-${index}`}
+                            className={
+                                slide === index ? "carousel__slide" : "hidden"
+                            }
+                            src={picture}
+                            alt={title}
+                        />
+                    ))}
+                    <button
+                        aria-label="image précédente"
+                        onClick={prevSlide}
+                        className={
+                            pictures.length <= 1
+                                ? "hidden"
+                                : "carousel__btn carousel__btnLeft"
+                        }
+                    >
+                        <img
+                            src={chevronRight}
+                            alt=""
+                            className="chevronLeft"
+                        />
+                    </button>
+                    <span
+                        aria-label={`image ${slide + 1} sur ${pictures.length}`}
+                        className={
+                            pictures.length <= 1
+                                ? "hidden"
+                                : "carousel__indicator"
+                        }
+                    >
+                        <span aria-hidden="true">{`${slide + 1}/${
+                            pictures.length
+                        }`}</span>
+                    </span>
+                </div>
+            )}
         </div>
     )
 }

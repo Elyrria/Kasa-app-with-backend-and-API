@@ -1,14 +1,14 @@
 @import "../../styles/globalStyle";
 
 .carouselContainer {
+    @include globalMargin();
     max-width: 1440px;
     &__carousel {
-        @include globalMargin();
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-width: 335px;
+        // min-width: 335px;
         height: 255px;
         margin-bottom: 15px;
         @media screen and (max-width: 374px) {

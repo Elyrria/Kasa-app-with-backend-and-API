@@ -1,7 +1,8 @@
 import "./HostRatings.scss"
 import ratingStarRed from "../../assets/rating-star-red.svg"
 import ratingStarGrey from "../../assets/rating-star-grey.svg"
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUser } from "@fortawesome/free-solid-svg-icons"
 function HostRatings({ hostRating, hostName, hostPicture }) {
     const range = [1, 2, 3, 4, 5]
     return (
@@ -32,11 +33,21 @@ function HostRatings({ hostRating, hostName, hostPicture }) {
             </div>
             <div className="ratingContainer__host">
                 <h4 className="ratingContainer__hostName">{hostName}</h4>
-                <img
-                    className="ratingContainer__hostPicture"
-                    src={hostPicture}
-                    alt={`Portrait ${hostName}, hôte du logement`}
-                />
+                {!hostPicture.startsWith("http://") &&
+                !hostPicture.startsWith("https://") ? (
+                    <div className="container__userIcon ratingContainer__hostPicture">
+                        <FontAwesomeIcon
+                            icon={faUser}
+                            className="container__userIcon-icon "
+                        />
+                    </div>
+                ) : (
+                    <img
+                        className="ratingContainer__hostPicture"
+                        src={hostPicture}
+                        alt={`Portrait ${hostName}, hôte du logement`}
+                    />
+                )}
             </div>
         </div>
     )
