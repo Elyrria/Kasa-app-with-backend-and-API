@@ -25,7 +25,7 @@ function LogIn() {
                 navigate("/") // On redirige vers la page d'accueil
             })
             .catch((error) => {
-                console.log(error) //! Gestion des erreurs de connexion utilisateur à gérer plus tard
+                console.error(error) //! Gestion des erreurs de connexion utilisateur à gérer plus tard
             })
     }
 

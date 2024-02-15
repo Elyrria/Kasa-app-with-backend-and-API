@@ -1,7 +1,8 @@
+import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-// import { useState } from "react"
-// import { useNavigate } from "react-router-dom"
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { useContext } from "react"
 import "./FormHousing.scss"
 
 function FormHousing({
@@ -26,53 +27,111 @@ function FormHousing({
     inputTags,
     setInputTags,
 }) {
+    const { dataLogin } = useContext(SharedDataLoginContext)
+
+    //! Amélioration à prévoir : Réalisation d'un hook pour l'ajout d'un élément et un hook pour la suppression d'un élément (suppression de toutes les fonctions handlePicture + handleDelete, ...)
+
     const handlePictureAdd = () => {
-        console.log("Picture")
         let inputPictureValue = document.getElementById("pictures").value
         if (!inputPictureValue) {
             return
+            //!Afficher un message à l'utilisateur
         }
         if (inputPictures.includes(inputPictureValue)) {
             console.error("La photo est déjà présente")
             return
         }
         setInputPictures([...inputPictures, inputPictureValue])
-        console.log(inputPictures)
-        inputPictureValue = ""
+        document.getElementById("pictures").value = ""
+    }
+
+    const handleDeletePicture = (index) => {
+        const newInputPicture = [...inputPictures]
+        newInputPicture.splice(index, 1) // Supprime l'élément dans le tableau
+        setInputPictures(newInputPicture)
     }
 
     const handleEquipmentAdd = () => {
-        console.log("Equipment")
+        let inputEquipmentsValue = document.getElementById("equipments").value
+        if (!inputEquipmentsValue) {
+            return
+            //!Afficher un message à l'utilisateur
+        }
+        if (inputEquipments.includes(inputEquipmentsValue)) {
+            console.error("L'équipement est déjà présent'")
+            return
+        }
+        setInputEquipments([...inputEquipments, inputEquipmentsValue])
+        document.getElementById("equipments").value = ""
+        console.log(inputEquipments)
+    }
+
+    const handleDeleteEquipment = (index) => {
+        const newInputEquipment = [...inputEquipments]
+        newInputEquipment.splice(index, 1) // Supprime l'élément dans le tableau
+        setInputEquipments(newInputEquipment)
     }
 
     const handleTagAdd = () => {
         console.log("Tag")
-    }
-    // const [dataFormulaire, setDataFormulaire] = useState("")
-    // const navigate = useNavigate()
-    const onSubmit = (e) => {
-        e.preventDefault()
-        console.log(
-            "formulaire : " + inputTitle,
-            inputLocation,
-            inputCover,
-            inputPictures,
-            inputDescription,
-            inputHostName,
-            inputHostPicture,
-            inputHostRang,
-            inputEquipments,
-            inputTags
-        )
-        // dataToSend() // Appel de la fonction qui va gérer la création de data dans un seul objet
-        // Fetch avec axios
-        // navigate("/") // Redirection
+        let inputTagsValue = document.getElementById("tags").value
+        if (!inputTagsValue) {
+            return
+            //!Afficher un message à l'utilisateur
+        }
+        if (inputTags.includes(inputTagsValue)) {
+            console.error("Le tag est déjà présent'")
+            return
+        }
+        setInputTags([...inputTags, inputTagsValue])
+        document.getElementById("tags").value = ""
+        console.log(inputTags)
     }
 
-    // const dataToSend = () => {
-    //Fontion qui va permettre de récupérer toutes les datas des différents states des inputs pour les préparer à l'envoi à l'API
-    // setDataFormulaire() // Appel de la fonction pour mettre à jour dataFormulaire
-    // }
+    const handleDeleteTag = (index) => {
+        const newInputTags = [...inputTags]
+        newInputTags.splice(index, 1) // Supprime l'élément dans le tableau
+        setInputTags(newInputTags)
+    }
+
+    // const [dataFormulaire, setDataFormulaire] = useState("")
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        const housing = {
+            title: inputTitle,
+            cover: inputCover,
+            pictures: inputPictures,
+            description: inputDescription,
+            host: {
+                name: inputHostName,
+                picture: inputHostPicture,
+            },
+            rating: inputHostRang,
+            location: inputLocation,
+            equipments: inputEquipments,
+            tags: inputTags,
+        }
+
+        console.log(dataLogin)
+        const config = {
+            headers: {
+                Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
+                UserId: dataLogin.userId, // Ajouter le userId dans l'en-tête
+            },
+        }
+        // dataToSend() // Appel de la fonction qui va gérer la création de data dans un seul objet
+        axios
+            .post("http://localhost:3001/api/housing", housing, config)
+            .then((res) => {
+                console.log(res)
+                console.log("Hébérgement créé")
+                window.location.href = "/"
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
 
     return (
         <form className="housingEditorContaineur__form" onSubmit={onSubmit}>
@@ -120,9 +179,16 @@ function FormHousing({
                         <span className="buttonForm__visibility">Ajouter</span>
                     </div>
                 </div>
-                <ul>
+                <ul className="elementsList__container ">
                     {inputPictures.map((picture, index) => (
-                        <li key={index}>{`Picture ${index + 1}`}</li>
+                        <div key={index} className="elementsList">
+                            <li>{`Picture ${index + 1}`}</li>
+                            <FontAwesomeIcon
+                                className="iconTarsh"
+                                icon={faTrash}
+                                onClick={() => handleDeletePicture(index)}
+                            />
+                        </div>
                     ))}
                 </ul>
             </div>
@@ -185,6 +251,18 @@ function FormHousing({
                         <span className="buttonForm__visibility">Ajouter</span>
                     </div>
                 </div>
+                <ul className="elementsList__container">
+                    {inputEquipments.map((equipment, index) => (
+                        <div key={index} className="elementsList">
+                            <li>{equipment}</li>
+                            <FontAwesomeIcon
+                                className="iconTarsh"
+                                icon={faTrash}
+                                onClick={() => handleDeleteEquipment(index)}
+                            />
+                        </div>
+                    ))}
+                </ul>
             </div>
 
             <div className="form__addTags">
@@ -199,6 +277,18 @@ function FormHousing({
                         <span className="buttonForm__visibility">Ajouter</span>
                     </div>
                 </div>
+                <ul className="elementsList__container">
+                    {inputTags.map((tag, index) => (
+                        <div key={index} className="elementsList">
+                            <li>{tag}</li>
+                            <FontAwesomeIcon
+                                className="iconTarsh"
+                                icon={faTrash}
+                                onClick={() => handleDeleteTag(index)}
+                            />
+                        </div>
+                    ))}
+                </ul>
             </div>
 
             <button className="submitButton">Valider</button>

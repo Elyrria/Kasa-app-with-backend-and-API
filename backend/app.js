@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*") // Permet d'accéder à l'API depuis n'importe quelle origine
     res.setHeader(
         "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, userid"
     ) // Permet d'ajouter tous les en-têtes mentionnés aux requêtes vers l'API
     res.setHeader(
         "Access-Control-Allow-Methods",

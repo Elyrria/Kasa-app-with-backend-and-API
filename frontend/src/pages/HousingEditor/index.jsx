@@ -9,7 +9,7 @@ import "../Housings/Housing.scss"
 import "./HousingEditor.scss"
 
 function HousingEditor() {
-    const [inputTitle, setInputTitle] = useState("Titre de l'hébérgement")
+    const [inputTitle, setInputTitle] = useState("")
     const [inputLocation, setInputLocation] = useState("")
     const [inputCover, setInputCover] = useState("")
     const [inputPictures, setInputPictures] = useState([])
@@ -44,7 +44,11 @@ function HousingEditor() {
                                         {inputLocation}
                                     </h3>
                                 </div>
-                                <Tags className="tag" tags={[]} id={""} />
+                                <Tags
+                                    className="tag"
+                                    tags={inputTags}
+                                    id={"tag"}
+                                />
                             </div>
                             <HostRatings
                                 className="hostRating"
@@ -58,7 +62,10 @@ function HousingEditor() {
                                 name={"Description"}
                                 description={inputDescription}
                             />
-                            <Collapse name={"Équipement"} equipments={""} />
+                            <Collapse
+                                name={"Équipement"}
+                                equipments={inputEquipments}
+                            />
                         </div>
                     </div>
                 </div>

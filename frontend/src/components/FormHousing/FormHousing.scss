@@ -37,6 +37,19 @@
                 justify-content: center;
             }
         }
+        .elementsList__container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            .elementsList {
+                width: 50%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .iconTarsh:hover {
+            cursor: pointer;
+        }
     }
 
     .buttonForm {

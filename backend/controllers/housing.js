@@ -2,13 +2,22 @@
 const Housing = require("../models/Housing")
 //* Export des fonctions de logique métier pour les routes
 exports.creatHousing = (req, res, next) => {
+    const housingObject = req.body
+    delete housingObject._id
+    delete housingObject.userId
+
     const housing = new Housing({
-        ...req.body,
+        ...housingObject,
+        userId: req.auth.userId,
     })
     housing
         .save()
-        .then((housing) => res.status(201).json({ housing }))
-        .catch((error) => res.status(400).json({ error }))
+        .then(() => {
+            res.status(201).json({ message: "Objet créé !", objet: req.body })
+        })
+        .catch((error) => {
+            res.status(400).json({ error })
+        })
 }
 
 exports.modifyHousing = (req, res, next) => {
