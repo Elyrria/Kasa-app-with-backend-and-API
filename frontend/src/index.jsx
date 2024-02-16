@@ -12,6 +12,7 @@ import LogIn from "./pages/LogIn"
 import HousingEditor from "./pages/HousingEditor"
 import { DataProvider } from "./utils//Context/HousingsDatas"
 import { DataLoginProvider } from "./utils/Context/UserLogin"
+import { DataModifyHousingProvider } from "./utils/Context/ModifyHousing"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
@@ -20,20 +21,26 @@ root.render(
             <DataLoginProvider>
                 <Header />
                 <DataProvider>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/a_propos" element={<About />} />
-                        <Route path="/login" element={<LogIn />}></Route>
-                        <Route
-                            path={"/hebergement/:id"}
-                            element={<Housings />}
-                        />
-                        <Route
-                            path="/edition_hebergement"
-                            element={<HousingEditor />}
-                        ></Route>
-                        <Route path="*" element={<Error />} />
-                    </Routes>
+                    <DataModifyHousingProvider>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/a_propos" element={<About />} />
+                            <Route path="/login" element={<LogIn />}></Route>
+                            <Route
+                                path={"/hebergement/:id"}
+                                element={<Housings />}
+                            />
+                            <Route
+                                path="/edition_hebergement/:id"
+                                element={<HousingEditor />}
+                            ></Route>
+                            <Route
+                                path="/edition_hebergement/"
+                                element={<HousingEditor />}
+                            ></Route>
+                            <Route path="*" element={<Error />} />
+                        </Routes>
+                    </DataModifyHousingProvider>
                 </DataProvider>
             </DataLoginProvider>
             <Footer />

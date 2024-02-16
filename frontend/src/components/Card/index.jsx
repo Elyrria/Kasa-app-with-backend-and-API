@@ -1,16 +1,21 @@
 import "./Card.scss"
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 function Card({ cover, title, id }) {
     const [urlActive, setUrlActive] = useState("")
+    const { modifyMode } = useContext(SharedDataModifyHousingContext)
     useEffect(() => {
         setUrlActive(window.location.href)
     }, [setUrlActive])
-    if (urlActive === "http://localhost:3000/edition_hebergement") {
+    if (
+        urlActive === "http://localhost:3000/edition_hebergement" ||
+        modifyMode === true
+    ) {
         return (
             <div className="containerCard">
                 <div className="cards">
-                    <div className="cards__links" to={`/hebergement/${id}`}>
+                    <div className="cards__links">
                         <div className="cards__linearOppacity"></div>
                         {!cover.startsWith("http://") &&
                         !cover.startsWith("https://") ? (

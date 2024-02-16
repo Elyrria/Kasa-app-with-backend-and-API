@@ -3,14 +3,25 @@ import Carousel from "../../components/Carousel"
 import Collapse from "../../components/Collapse"
 import Tags from "../../components/Tags"
 import HostRatings from "../../components/HostRatings"
+import axios from "axios"
 import "./Housing.scss"
 import { useEffect, useContext } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { useFetch } from "../../utils/Hooks"
 import { SharedDataContext } from "../../utils/Context/HousingsDatas/"
+import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
+
 function Housings() {
-    //récupération des données depuis le context
+    //Récupération des données depuis le context HousingsData
     const [dataHousings] = useContext(SharedDataContext)
+    //Récupération des données depuis le context UserContext
+    const { isLogin, dataLogin } = useContext(SharedDataLoginContext)
+    //Récupération des données depuis le context ModifyHousing
+    const { setIsModify, setDataHousingToModify, setModifyMode } = useContext(
+        SharedDataModifyHousingContext
+    )
+
     const navigate = useNavigate()
     const location = useLocation()
     //Permet de récupérer la clé de la route enfant (tous ce qui est après hebergement/)
@@ -21,6 +32,32 @@ function Housings() {
     )
     // Récupération de la propriété housing et stockage dans la variable housing de l'objet data
     const { housing } = data
+
+    const handleDeletHousing = (id) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
+                UserId: dataLogin.userId, // Ajouter le userId dans l'en-tête
+            },
+        }
+        axios
+            .delete(`http://localhost:3001/api/housing/${id}`, config)
+            .then((res) => {
+                console.log(res)
+                console.log("Hébérgement supprimé")
+                window.location.href = "/"
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
+
+    const handleModifyHousing = (id) => {
+        setIsModify(true)
+        setModifyMode(true)
+        setDataHousingToModify(housing)
+        navigate(`/edition_hebergement/${id}`)
+    }
 
     useEffect(() => {
         if (loading || !dataHousings) {
@@ -100,6 +137,22 @@ function Housings() {
                             equipments={housing.equipments}
                         />
                     </div>
+                    {isLogin ? (
+                        <div className="manageHousing">
+                            <button
+                                className="manageHousing__button"
+                                onClick={() => handleModifyHousing(id)}
+                            >
+                                Modifier
+                            </button>
+                            <button
+                                className="manageHousing__button"
+                                onClick={() => handleDeletHousing(id)}
+                            >
+                                Supprimer
+                            </button>
+                        </div>
+                    ) : null}
                 </div>
             </main>
         )
@@ -109,14 +162,12 @@ function Housings() {
 const isValidate = (id, dataHousings) => {
     //Récupération de tous les ids
     const idDataHousings = dataHousings.map((house) => house._id)
-    console.log(idDataHousings)
     //Vérification si id est bien compris dans le tableau des ids
     return idDataHousings.includes(id)
 }
 
 const getDatabyId = (id, dataHousings) => {
     const foundData = dataHousings.find((item) => item._id === id)
-    console.log(foundData)
 
     if (foundData) {
         return foundData

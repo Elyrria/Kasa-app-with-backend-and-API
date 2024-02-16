@@ -11,6 +11,18 @@
             margin: auto;
         }
     }
+    .manageHousing {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        &__button {
+            @include fontFamily;
+            @include borderRadius10px;
+            border: 2px solid $primary-color;
+            color: $primary-color;
+            height: 30px;
+        }
+    }
 }
 
 .titles {

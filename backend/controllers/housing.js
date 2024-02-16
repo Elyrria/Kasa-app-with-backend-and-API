@@ -4,8 +4,7 @@ const Housing = require("../models/Housing")
 exports.creatHousing = (req, res, next) => {
     const housingObject = req.body
     delete housingObject._id
-    delete housingObject.userId
-
+    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité (il n'y a pas de userId dans la requ)
     const housing = new Housing({
         ...housingObject,
         userId: req.auth.userId,
@@ -21,18 +20,66 @@ exports.creatHousing = (req, res, next) => {
 }
 
 exports.modifyHousing = (req, res, next) => {
-    Housing.updateOne(
-        { _id: req.params.id },
-        { ...req.body, _id: req.params.id }
-    )
-        .then(() => res.status(200).json({ message: "Modified!" }))
-        .catch((error) => res.status(400).json({ error }))
+    const housingObject = req.body
+    delete housingObject.userId // Suppression du userId pour des raisons de sécurité
+    Housing.findOne({ _id: req.params.id })
+        .then((housing) => {
+            if (!housing) {
+                return res.status(404).json({
+                    message: "Hébergement introuvable",
+                })
+            }
+            if (housing.userId !== req.auth.userId) {
+                return res.status(401).json({
+                    message: "Accès refusés",
+                })
+            } else {
+                Housing.updateOne(
+                    { _id: req.params.id },
+                    { ...housingObject, _id: req.params.id }
+                )
+                    .then(() =>
+                        res
+                            .status(200)
+                            .json({ message: "Hébérgement modifié !" })
+                    )
+                    .catch((error) => {
+                        res.status(500).json({ error })
+                        console.log("je suis ici")
+                    })
+            }
+        })
+        .catch((error) => {
+            console.log("Je suis la")
+            console.log(error)
+            res.status(400).json({ error })
+        })
 }
 
 exports.deleteHousing = (req, res, next) => {
-    Housing.deleteOne({ _id: req.params.id })
-        .then(() => res.status(200).json({ message: "Deleted!" }))
-        .catch((error) => res.status(400).json({ error }))
+    Housing.findOne({ _id: req.params.id })
+        .then((housing) => {
+            if (housing.userId !== req.auth.userId) {
+                return res.status(401).json({
+                    message: "Accès refusé !!!",
+                })
+            } else {
+                Housing.deleteOne({ _id: req.params.id })
+                    .then(() => {
+                        res.status(200).json({
+                            message: "Hébérgement supprimé !",
+                        })
+                    })
+                    .catch((error) => {
+                        console.log("la")
+                        res.status(500).json({ error })
+                    })
+            }
+        })
+        .catch((error) => {
+            console.log("ici")
+            res.status(400).json({ error })
+        })
 }
 
 exports.getOneHousing = (req, res, next) => {

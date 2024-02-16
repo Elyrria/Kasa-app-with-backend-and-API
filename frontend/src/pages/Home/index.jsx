@@ -6,15 +6,18 @@ import { SharedDataContext } from "../../utils/Context/HousingsDatas/"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin/"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 
 function Home() {
     //récupération des données depuis le context
     const [dataHousings] = useContext(SharedDataContext)
     const { isLogin } = useContext(SharedDataLoginContext)
+    const { setModifyMode } = useContext(SharedDataModifyHousingContext)
 
     useEffect(() => {
         document.title = "Home"
-    }, [])
+        setModifyMode(false)
+    }, [setModifyMode])
 
     return (
         <main>

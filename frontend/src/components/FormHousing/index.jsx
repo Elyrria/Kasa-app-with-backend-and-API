@@ -1,10 +1,10 @@
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { useContext, useEffect } from "react"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
-import { useContext } from "react"
+import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 import "./FormHousing.scss"
-
 function FormHousing({
     inputTitle,
     setInputTitle,
@@ -28,6 +28,14 @@ function FormHousing({
     setInputTags,
 }) {
     const { dataLogin } = useContext(SharedDataLoginContext)
+    const {
+        isModify,
+        setIsModify,
+        modifyMode,
+        setModifyMode,
+        dataHousingToModify,
+        setDataHousingToModify,
+    } = useContext(SharedDataModifyHousingContext)
 
     //! Amélioration à prévoir : Réalisation d'un hook pour l'ajout d'un élément et un hook pour la suppression d'un élément (suppression de toutes les fonctions handlePicture + handleDelete, ...)
 
@@ -63,7 +71,6 @@ function FormHousing({
         }
         setInputEquipments([...inputEquipments, inputEquipmentsValue])
         document.getElementById("equipments").value = ""
-        console.log(inputEquipments)
     }
 
     const handleDeleteEquipment = (index) => {
@@ -73,7 +80,6 @@ function FormHousing({
     }
 
     const handleTagAdd = () => {
-        console.log("Tag")
         let inputTagsValue = document.getElementById("tags").value
         if (!inputTagsValue) {
             return
@@ -85,7 +91,6 @@ function FormHousing({
         }
         setInputTags([...inputTags, inputTagsValue])
         document.getElementById("tags").value = ""
-        console.log(inputTags)
     }
 
     const handleDeleteTag = (index) => {
@@ -112,26 +117,61 @@ function FormHousing({
             equipments: inputEquipments,
             tags: inputTags,
         }
-
-        console.log(dataLogin)
+        //! Ajouter les configs au userContext
         const config = {
             headers: {
                 Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
-                UserId: dataLogin.userId, // Ajouter le userId dans l'en-tête
+                userId: dataLogin.userId, // Ajouter le userId dans l'en-tête
             },
         }
-        // dataToSend() // Appel de la fonction qui va gérer la création de data dans un seul objet
-        axios
-            .post("http://localhost:3001/api/housing", housing, config)
-            .then((res) => {
-                console.log(res)
-                console.log("Hébérgement créé")
-                window.location.href = "/"
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        if (modifyMode) {
+            axios
+                .put(
+                    `http://localhost:3001/api/housing/${dataHousingToModify._id}`,
+                    housing,
+                    config
+                )
+                .then((res) => {
+                    console.log(res)
+                    console.log("Hébérgement modifié")
+                    window.location.href = "/"
+                    setDataHousingToModify([])
+                    setModifyMode(false)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        } else {
+            axios
+                .post("http://localhost:3001/api/housing", housing, config)
+                .then((res) => {
+                    console.log(res)
+                    console.log("Hébérgement créé")
+                    window.location.href = "/"
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
     }
+
+    useEffect(() => {
+        if (isModify) {
+            setInputTitle(dataHousingToModify.title)
+            setInputLocation(dataHousingToModify.location)
+            setInputCover(dataHousingToModify.cover)
+            setInputPictures(dataHousingToModify.pictures)
+            setInputDescription(dataHousingToModify.description)
+            setInputHostName(dataHousingToModify.host.name)
+            setInputHostPicture(dataHousingToModify.host.picture)
+            setInputHostRang(dataHousingToModify.rating)
+            setInputEquipments(dataHousingToModify.equipments)
+            setInputTags(dataHousingToModify.tags)
+            setIsModify(false)
+        } else {
+            return
+        }
+    })
 
     return (
         <form className="housingEditorContaineur__form" onSubmit={onSubmit}>
@@ -140,7 +180,6 @@ function FormHousing({
                 type="text"
                 id="title"
                 name="title"
-                value={inputTitle}
                 onChange={(e) => setInputTitle(e.target.value)}
             />
             <label htmlFor="location">Lieu :</label>
@@ -148,7 +187,6 @@ function FormHousing({
                 type="text"
                 id="location"
                 name="location"
-                value={inputLocation}
                 onChange={(e) => setInputLocation(e.target.value)}
             />
             <label htmlFor="cover">Couverture :</label>
@@ -157,7 +195,6 @@ function FormHousing({
                 id="cover"
                 name="cover"
                 placeholder="http:// ou https://"
-                value={inputCover}
                 onChange={(e) => {
                     setInputCover(e.target.value)
                 }}
@@ -197,7 +234,6 @@ function FormHousing({
                 type="text"
                 id="description"
                 name="description"
-                value={inputDescription}
                 onChange={(e) => {
                     setInputDescription(e.target.value)
                 }}
@@ -207,7 +243,6 @@ function FormHousing({
                 type="text"
                 id="host"
                 name="host"
-                value={inputHostName}
                 onChange={(e) => {
                     setInputHostName(e.target.value)
                 }}
@@ -218,7 +253,6 @@ function FormHousing({
                 id="pictureHost"
                 name="pictureHost"
                 placeholder="http:// ou https://"
-                value={inputHostPicture}
                 onChange={(e) => {
                     setInputHostPicture(e.target.value)
                 }}
@@ -231,7 +265,6 @@ function FormHousing({
                 min="1"
                 max="5"
                 placeholder="Note de 1 à 5"
-                value={inputHostRang}
                 onChange={(e) => {
                     setInputHostRang(e.target.value)
                 }}
@@ -291,7 +324,9 @@ function FormHousing({
                 </ul>
             </div>
 
-            <button className="submitButton">Valider</button>
+            <button className="submitButton">
+                {modifyMode ? "Modifier" : "Valider"}
+            </button>
         </form>
     )
 }

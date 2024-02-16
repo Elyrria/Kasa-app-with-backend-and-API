@@ -14,6 +14,7 @@ const housingSchema = mongoose.Schema({
     rating: { type: Number, required: true },
     equipments: { type: [String], required: true },
     tags: { type: [String], required: true },
+    userId: { type: String, required: true },
 })
 
 module.exports = mongoose.model("Housing", housingSchema)

@@ -8,9 +8,9 @@ const router = express.Router()
 
 router.post("/", auth, housingCtrl.creatHousing)
 
-router.put("/:id", housingCtrl.modifyHousing)
+router.put("/:id", auth, housingCtrl.modifyHousing)
 
-router.delete("/:id", housingCtrl.deleteHousing)
+router.delete("/:id", auth, housingCtrl.deleteHousing)
 
 router.get("/:id", housingCtrl.getOneHousing)
 
