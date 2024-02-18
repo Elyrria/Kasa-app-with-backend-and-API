@@ -1,10 +1,13 @@
-import axios from "axios"
+ import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { useParams, useNavigate } from "react-router-dom"
 import { useContext, useEffect } from "react"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
 import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
+import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
 import "./FormHousing.scss"
+
 function FormHousing({
     inputTitle,
     setInputTitle,
@@ -28,19 +31,18 @@ function FormHousing({
     setInputTags,
 }) {
     const { dataLogin } = useContext(SharedDataLoginContext)
-    const {
-        isModify,
-        setIsModify,
-        modifyMode,
-        setModifyMode,
-        dataHousingToModify,
-        setDataHousingToModify,
-    } = useContext(SharedDataModifyHousingContext)
+    const { setIsActiveToastBar, setMessageToastBar } =
+        useContext(SharedActiveToastBar)
+    const { id } = useParams() // Récupération de l'idée contenu dans l'url
+    const navigate = useNavigate()
+    const { modifyMode, setModifyMode, toModify, setToModify } = useContext(
+        SharedDataModifyHousingContext
+    )
 
     //! Amélioration à prévoir : Réalisation d'un hook pour l'ajout d'un élément et un hook pour la suppression d'un élément (suppression de toutes les fonctions handlePicture + handleDelete, ...)
 
     const handlePictureAdd = () => {
-        let inputPictureValue = document.getElementById("pictures").value
+        const inputPictureValue = document.getElementById("pictures").value
         if (!inputPictureValue) {
             return
             //!Afficher un message à l'utilisateur
@@ -117,26 +119,22 @@ function FormHousing({
             equipments: inputEquipments,
             tags: inputTags,
         }
-        //! Ajouter les configs au userContext
+        localStorage.removeItem("toModify")
+        //! Amélioration ajouter les configs au userContext
         const config = {
             headers: {
                 Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
-                userId: dataLogin.userId, // Ajouter le userId dans l'en-tête
+                userId: dataLogin.userId, // !Inutile à supprimer aussi back
             },
         }
         if (modifyMode) {
             axios
-                .put(
-                    `http://localhost:3001/api/housing/${dataHousingToModify._id}`,
-                    housing,
-                    config
-                )
+                .put(`http://localhost:3001/api/housing/${id}`, housing, config)
                 .then((res) => {
-                    console.log(res)
-                    console.log("Hébérgement modifié")
-                    window.location.href = "/"
-                    setDataHousingToModify([])
                     setModifyMode(false)
+                    setMessageToastBar("L'hébérgement a bien été modifié")
+                    setIsActiveToastBar(true)
+                    navigate("/")
                 })
                 .catch((error) => {
                     console.error(error)
@@ -145,9 +143,9 @@ function FormHousing({
             axios
                 .post("http://localhost:3001/api/housing", housing, config)
                 .then((res) => {
-                    console.log(res)
-                    console.log("Hébérgement créé")
-                    window.location.href = "/"
+                    setMessageToastBar("L'hébérgement a bien été créé")
+                    setIsActiveToastBar(true)
+                    navigate("/")
                 })
                 .catch((error) => {
                     console.error(error)
@@ -156,22 +154,56 @@ function FormHousing({
     }
 
     useEffect(() => {
-        if (isModify) {
-            setInputTitle(dataHousingToModify.title)
-            setInputLocation(dataHousingToModify.location)
-            setInputCover(dataHousingToModify.cover)
-            setInputPictures(dataHousingToModify.pictures)
-            setInputDescription(dataHousingToModify.description)
-            setInputHostName(dataHousingToModify.host.name)
-            setInputHostPicture(dataHousingToModify.host.picture)
-            setInputHostRang(dataHousingToModify.rating)
-            setInputEquipments(dataHousingToModify.equipments)
-            setInputTags(dataHousingToModify.tags)
-            setIsModify(false)
-        } else {
-            return
+        const toModifyLocalStorage = JSON.parse(
+            localStorage.getItem("toModify")
+        )
+
+        if (toModify || toModifyLocalStorage) {
+            axios
+                .get(`http://localhost:3001/api/housing/${id}`)
+                .then((res) => {
+                    //Permet de recharger les données si un reload de la page est effectué
+                    if (!toModifyLocalStorage) {
+                        localStorage.setItem("toModify", JSON.stringify(true))
+                    } else {
+                        setToModify(true)
+                        setModifyMode(true)
+                    }
+
+                    const housing = res.data.housing
+                    setInputTitle(housing.title)
+                    setInputLocation(housing.location)
+                    setInputCover(housing.cover)
+                    setInputPictures(housing.pictures)
+                    setInputDescription(housing.description)
+                    setInputHostName(housing.host.name)
+                    setInputHostPicture(housing.host.picture)
+                    setInputHostRang(housing.rating)
+                    setInputEquipments(housing.equipments)
+                    setInputTags(housing.tags)
+                    setToModify(false)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
         }
-    })
+        return
+    }, [
+        id,
+        setInputCover,
+        setInputDescription,
+        setInputEquipments,
+        setInputHostName,
+        setInputHostPicture,
+        setInputHostRang,
+        setInputLocation,
+        setInputPictures,
+        setInputTags,
+        setInputTitle,
+        setModifyMode,
+        setToModify,
+        toModify,
+    ])
 
     return (
         <form className="housingEditorContaineur__form" onSubmit={onSubmit}>
@@ -330,5 +362,4 @@ function FormHousing({
         </form>
     )
 }
-
 export default FormHousing

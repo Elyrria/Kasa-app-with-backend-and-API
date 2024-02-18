@@ -45,12 +45,10 @@ exports.modifyHousing = (req, res, next) => {
                     )
                     .catch((error) => {
                         res.status(500).json({ error })
-                        console.log("je suis ici")
                     })
             }
         })
         .catch((error) => {
-            console.log("Je suis la")
             console.log(error)
             res.status(400).json({ error })
         })
@@ -77,7 +75,6 @@ exports.deleteHousing = (req, res, next) => {
             }
         })
         .catch((error) => {
-            console.log("ici")
             res.status(400).json({ error })
         })
 }

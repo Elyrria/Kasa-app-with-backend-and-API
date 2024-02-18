@@ -18,7 +18,7 @@ function Housings() {
     //Récupération des données depuis le context UserContext
     const { isLogin, dataLogin } = useContext(SharedDataLoginContext)
     //Récupération des données depuis le context ModifyHousing
-    const { setIsModify, setDataHousingToModify, setModifyMode } = useContext(
+    const { setModifyMode, setToModify } = useContext(
         SharedDataModifyHousingContext
     )
 
@@ -53,9 +53,8 @@ function Housings() {
     }
 
     const handleModifyHousing = (id) => {
-        setIsModify(true)
         setModifyMode(true)
-        setDataHousingToModify(housing)
+        setToModify(true)
         navigate(`/edition_hebergement/${id}`)
     }
 
