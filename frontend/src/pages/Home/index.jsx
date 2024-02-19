@@ -1,54 +1,110 @@
 import Card from "../../components/Card"
-import "./Home.scss"
+import axios from "axios"
 import { NavLink } from "react-router-dom"
-import { useEffect, useContext } from "react"
-import { SharedDataContext } from "../../utils/Context/HousingsDatas/"
+import { useEffect, useContext, useState } from "react"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin/"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
+import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
+import { Bounce, ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import "./Home.scss"
+import "../../styles/customToast.scss"
 
 function Home() {
-    //récupération des données depuis le context
-    const [dataHousings] = useContext(SharedDataContext)
     const { isLogin } = useContext(SharedDataLoginContext)
     const { setModifyMode } = useContext(SharedDataModifyHousingContext)
+    const {
+        isActiveToastBar,
+        setIsActiveToastBar,
+        messageToastBar,
+        setMessageToastBar,
+    } = useContext(SharedActiveToastBar)
+    const [loading, setLoading] = useState(true) // État pour le chargement
+    const [housings, setHousings] = useState([])
 
     useEffect(() => {
         document.title = "Home"
         setModifyMode(false)
-    }, [setModifyMode])
 
-    return (
-        <main>
-            {isLogin ? (
-                <div className="createNewHousing">
-                    <NavLink
-                        to="/edition_hebergement"
-                        className="createNewHousing__button"
-                    >
-                        {" "}
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            className="createNewHousing__icon"
-                        />
-                        Ajouter
-                    </NavLink>
+        axios
+            .get("http://localhost:3001/api/housing")
+            .then((res) => {
+                setHousings(res.data.housings) // Met
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.error(error)
+                setLoading(false)
+            })
+    }, [isActiveToastBar, messageToastBar, setIsActiveToastBar, setModifyMode])
+
+    useEffect(() => {
+        if (isActiveToastBar) {
+            const notify = () => toast(messageToastBar)
+            notify() // Active la toastBar
+            setTimeout(() => {
+                setIsActiveToastBar(false)
+                setMessageToastBar("")
+            }, 4000)
+        }
+    })
+
+    if (loading) {
+        return <div>Chargement...</div>
+    } else {
+        return (
+            <main>
+                {isLogin ? (
+                    <div className="createNewHousing">
+                        <NavLink
+                            to="/edition_hebergement"
+                            className="createNewHousing__button"
+                        >
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                className="createNewHousing__icon"
+                            />
+                            Ajouter
+                        </NavLink>
+                    </div>
+                ) : null}
+                <div
+                    className="wrapperGallery"
+                    aria-label="galerie d'hébergement"
+                >
+                    {housings &&
+                        housings.map((housing) => (
+                            <Card
+                                key={housing._id}
+                                id={housing._id}
+                                cover={housing.cover}
+                                title={housing.title}
+                            />
+                        ))}
                 </div>
-            ) : null}
-            <div className="wrapperGallery" aria-label="galerie d'hébergement">
-                {dataHousings &&
-                    dataHousings.map((housing) => (
-                        <Card
-                            key={housing._id}
-                            id={housing._id}
-                            cover={housing.cover}
-                            title={housing.title}
-                        />
-                    ))}
-            </div>
-        </main>
-    )
+                <div>
+                    <ToastContainer
+                        toastClassName="custom-toast"
+                        bodyClassName="custom-toast-body"
+                        progressClassName="custom-progress"
+                        position="bottom-center"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                        transition={Bounce}
+                    />
+                </div>
+            </main>
+        )
+    }
 }
 
 export default Home

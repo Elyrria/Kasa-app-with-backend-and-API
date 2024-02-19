@@ -3,8 +3,7 @@ const Housing = require("../models/Housing")
 //* Export des fonctions de logique métier pour les routes
 exports.creatHousing = (req, res, next) => {
     const housingObject = req.body
-    delete housingObject._id
-    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité (il n'y a pas de userId dans la requ)
+    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité 
     const housing = new Housing({
         ...housingObject,
         userId: req.auth.userId,

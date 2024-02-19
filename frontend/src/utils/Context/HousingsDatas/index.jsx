@@ -27,7 +27,7 @@ export const DataProvider = ({ children }) => {
     }
 
     return (
-        <SharedDataContext.Provider value={[dataHousings]}>
+        <SharedDataContext.Provider value={[dataHousings, setDataHousings]}>
             {children}
         </SharedDataContext.Provider>
     )

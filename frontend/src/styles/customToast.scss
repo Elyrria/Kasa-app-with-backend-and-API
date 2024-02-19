@@ -1,0 +1,14 @@
+@import "./globalStyle";
+.custom-toast {
+    background-color: $bg-color;
+    border: 2px solid $primary-color;
+}
+
+.custom-toast-body {
+    text-align: center;
+    color: $primary-color;
+}
+
+.custom-progress {
+    background: $primary-color;
+}

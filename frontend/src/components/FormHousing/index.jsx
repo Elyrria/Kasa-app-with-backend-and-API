@@ -1,4 +1,4 @@
- import axios from "axios"
+import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { useParams, useNavigate } from "react-router-dom"
@@ -124,7 +124,6 @@ function FormHousing({
         const config = {
             headers: {
                 Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
-                userId: dataLogin.userId, // !Inutile à supprimer aussi back
             },
         }
         if (modifyMode) {
@@ -157,35 +156,43 @@ function FormHousing({
         const toModifyLocalStorage = JSON.parse(
             localStorage.getItem("toModify")
         )
+        const currentURL = window.location.href
+        // Permet d'éviter le GET si on page de création
+        if (currentURL === "http://localhost:3000/edition_hebergement") {
+            return
+        } else {
+            if (toModify || toModifyLocalStorage) {
+                axios
+                    .get(`http://localhost:3001/api/housing/${id}`)
+                    .then((res) => {
+                        //Permet de recharger les données si un reload de la page est effectué
+                        if (!toModifyLocalStorage) {
+                            localStorage.setItem(
+                                "toModify",
+                                JSON.stringify(true)
+                            )
+                        } else {
+                            setToModify(true)
+                            setModifyMode(true)
+                        }
 
-        if (toModify || toModifyLocalStorage) {
-            axios
-                .get(`http://localhost:3001/api/housing/${id}`)
-                .then((res) => {
-                    //Permet de recharger les données si un reload de la page est effectué
-                    if (!toModifyLocalStorage) {
-                        localStorage.setItem("toModify", JSON.stringify(true))
-                    } else {
-                        setToModify(true)
-                        setModifyMode(true)
-                    }
-
-                    const housing = res.data.housing
-                    setInputTitle(housing.title)
-                    setInputLocation(housing.location)
-                    setInputCover(housing.cover)
-                    setInputPictures(housing.pictures)
-                    setInputDescription(housing.description)
-                    setInputHostName(housing.host.name)
-                    setInputHostPicture(housing.host.picture)
-                    setInputHostRang(housing.rating)
-                    setInputEquipments(housing.equipments)
-                    setInputTags(housing.tags)
-                    setToModify(false)
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
+                        const housing = res.data.housing
+                        setInputTitle(housing.title)
+                        setInputLocation(housing.location)
+                        setInputCover(housing.cover)
+                        setInputPictures(housing.pictures)
+                        setInputDescription(housing.description)
+                        setInputHostName(housing.host.name)
+                        setInputHostPicture(housing.host.picture)
+                        setInputHostRang(housing.rating)
+                        setInputEquipments(housing.equipments)
+                        setInputTags(housing.tags)
+                        setToModify(false)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            }
         }
         return
     }, [

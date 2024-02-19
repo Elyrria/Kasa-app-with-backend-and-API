@@ -8,7 +8,12 @@ export const DataLoginProvider = ({ children }) => {
 
     return (
         <SharedDataLoginContext.Provider
-            value={{ isLogin, setIsLogin, dataLogin, setDataLogin }}
+            value={{
+                isLogin,
+                setIsLogin,
+                dataLogin,
+                setDataLogin,
+            }}
         >
             {children}
         </SharedDataLoginContext.Provider>

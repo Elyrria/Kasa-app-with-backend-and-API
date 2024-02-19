@@ -185,11 +185,6 @@ paths:
             description: Permet de supprimer un hébérgement avec l'id passé en paramètres ⚙️⚙️⚙️ de la requête ❌
             operationId: deleteHousing
             parameters:
-                - name: userId
-                  in: header
-                  required: true
-                  schema:
-                    type: string
                 - name: token
                   in: header
                   required: true
@@ -213,11 +208,6 @@ paths:
             description: Permet de mettre à jour l'hébérgement spécifié dans les paramètres ⚙️⚙️⚙️ de la requète 👌
             operationId: updateHousing
             parameters:
-                - name: userId
-                  in: header
-                  required: true
-                  schema:
-                    type: string
                 - name: token
                   in: header
                   required: true
