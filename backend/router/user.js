@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const userCtrl = require("../controllers/user")
 const loginUserValidationRules = require("../validators/userValidation")
+const { validationResult } = require("express-validator")
 
 router.post("/login", loginUserValidationRules, async (req, res) => {
     const errors = validationResult(req)
