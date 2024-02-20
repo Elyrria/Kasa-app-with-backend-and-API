@@ -1,33 +1,63 @@
-// import dataHousings from "../../datas/housings.json"
 import Carousel from "../../components/Carousel"
 import Collapse from "../../components/Collapse"
 import Tags from "../../components/Tags"
 import HostRatings from "../../components/HostRatings"
 import axios from "axios"
-import "./Housing.scss"
 import { useEffect, useContext, useState } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { SharedDataLogoutContext } from "../../utils/Context/UserLogout"
 import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
+import { useDatas } from "../../utils/Hooks"
+import { Audio } from "react-loader-spinner"
+import "../../styles/loader.scss"
+import "./Housing.scss"
 
+//! Ajout d'un hook pour valider l'id des hébérgements et d'un hook pour récupérer l'ébérgement avec l'id
 function Housings() {
+    window.localStorage.removeItem("toModify") // Suppression du token toModify du localStorage
     //Récupération des données depuis le context UserContext
-    const { isLogin, dataLogin } = useContext(SharedDataLoginContext)
+    const { isLogin, dataLogin, setIsLogin, setDataLogin } = useContext(
+        SharedDataLoginContext
+    )
+    const { setIsLogout } = useContext(SharedDataLogoutContext)
     //Récupération des données depuis le context ModifyHousing
     const { setModifyMode, setToModify } = useContext(
         SharedDataModifyHousingContext
     )
     const { setIsActiveToastBar, setMessageToastBar } =
         useContext(SharedActiveToastBar)
-    const [loadingDataHousing, setLoadingDataHousing] = useState(true) // État pour le chargement
-    const [loadingDataHousings, setLoadingDataHousings] = useState(true) // État pour le chargement
+    const [loadingHousingData, setLoadingHousingData] = useState(true) // État pour le chargement
     const [housing, setHousing] = useState({}) // Données de l'hébérgement
-    const [housings, setHousings] = useState([]) // Données des hébérgements
+    const { housingsData, loadingHousingsData } = useDatas()
     const navigate = useNavigate()
     const location = useLocation()
     //Permet de récupérer la clé de la route enfant (tous ce qui est après hebergement/)
     const { id } = useParams()
+    //! Amélioration possible : créer un hook pour les configuration axios pour les instances
+    //Configuration d'axios pour l'ajout d'un intercepteur
+    const instance = axios.create({
+        baseURL: "http://localhost:3001/api/",
+    })
+
+    instance.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            const status = error.response ? error.response.status : null
+            if (status === 401) {
+                // Supprime les éléments validant la connexion
+                window.sessionStorage.removeItem("userData")
+                setIsLogin(false)
+                setDataLogin(null)
+                setIsLogout(true) // Changement de l'état à true pour afficher la toastbar sur la page login
+                navigate("/login") // Redirigez l'utilisateur vers la page de connexion
+            } else {
+                console.error("L'erreur de statut est la suivante :" + status)
+            }
+            return Promise.reject(error)
+        }
+    )
 
     const handleDeletHousing = (id) => {
         const config = {
@@ -35,15 +65,15 @@ function Housings() {
                 Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
             },
         }
-        axios
-            .delete(`http://localhost:3001/api/housing/${id}`, config)
-            .then((res) => {
+        instance
+            .delete(`/housing/${id}`, config)
+            .then(() => {
                 setMessageToastBar("L'hébérgement a bien été supprimé")
                 setIsActiveToastBar(true)
                 navigate("/")
             })
             .catch((error) => {
-                console.error(error)
+                console.log(error)
             })
     }
 
@@ -54,33 +84,31 @@ function Housings() {
     }
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/api/housing")
-            .then((res) => {
-                setHousings(res.data.housings)
-                setLoadingDataHousings(false)
-            })
-            .catch((error) => {
-                console.error(error)
-                setLoadingDataHousings(false)
-            })
-        axios
-            .get(`http://localhost:3001/api/housing/${id}`)
-            .then((res) => {
-                setHousing(res.data.housing)
-                setLoadingDataHousing(false) // Met à jour l'état une fois les données récupérées
-            })
-            .catch((error) => {
-                setLoadingDataHousing(false) // Met à jour l'état une fois les données récupérées
-                if (error.response.status === 400) {
-                    navigate("/error")
-                }
-            })
-    }, [id, housing, navigate])
+        document.title = housing.title
+        if (loadingHousingsData) {
+            // Permet de vérifier si housing contien des données si oui, ne rien faire
+            if (Object.keys(housing).length > 0) {
+                return
+            } else {
+                axios
+                    .get(`http://localhost:3001/api/housing/${id}`)
+                    .then((res) => {
+                        setHousing(res.data.housing)
+                        setLoadingHousingData(false) // Met à jour l'état une fois les données récupérées
+                    })
+                    .catch((error) => {
+                        setLoadingHousingData(false) // Met à jour l'état une fois les données récupérées
+                        if (error.response.status === 400) {
+                            navigate("/error")
+                        }
+                    })
+            }
+        }
+    }, [id, housing, navigate, housingsData, loadingHousingsData])
 
     useEffect(() => {
-        if (!loadingDataHousing && !loadingDataHousings) {
-            const isValid = isValidate(id, housings)
+        if (!loadingHousingData && !loadingHousingsData) {
+            const isValid = isValidate(id, housingsData)
             // Si isValid renvoie false alors redirige vers la page d'erreur
             if (!isValid) {
                 navigate("/error")
@@ -90,31 +118,12 @@ function Housings() {
         id,
         location,
         navigate,
-        housings,
-        loadingDataHousing,
-        loadingDataHousings,
+        housingsData,
+        loadingHousingData,
+        loadingHousingsData,
     ])
 
-    useEffect(() => {
-        if (!loadingDataHousing && !loadingDataHousings) {
-            const housingData = getDatabyId(id, housings)
-            // Si housingData est strictement égale à null alors redirige vers la page d'erreur
-            if (housingData === null) {
-                navigate("/error")
-            } else {
-                document.title = housing.title
-            }
-        }
-    }, [
-        id,
-        navigate,
-        housings,
-        housing,
-        loadingDataHousing,
-        loadingDataHousings,
-    ])
-
-    if (!loadingDataHousing && !loadingDataHousings) {
+    if (!loadingHousingData && !loadingHousingsData) {
         return (
             <main>
                 <Carousel
@@ -172,7 +181,21 @@ function Housings() {
             </main>
         )
     } else {
-        return <div>Loading...</div>
+        return (
+            <main>
+                <div className="loading">
+                    <Audio
+                        height="80"
+                        width="80"
+                        radius="9"
+                        color="#ff6060"
+                        ariaLabel="loading"
+                        wrapperStyle
+                        wrapperClass
+                    />
+                </div>
+            </main>
+        )
     }
 }
 
@@ -181,15 +204,6 @@ const isValidate = (id, housings) => {
     const idDataHousings = housings.map((house) => house._id)
     //Vérification si id est bien compris dans le tableau des ids
     return idDataHousings.includes(id)
-}
-
-const getDatabyId = (id, housings) => {
-    const foundData = housings.find((item) => item._id === id)
-    if (foundData) {
-        return foundData
-    } else {
-        return null
-    }
 }
 
 export default Housings

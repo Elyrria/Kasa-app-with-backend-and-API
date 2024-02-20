@@ -4,8 +4,11 @@ import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { useParams, useNavigate } from "react-router-dom"
 import { useContext, useEffect } from "react"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { SharedDataLogoutContext } from "../../utils/Context/UserLogout"
 import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
+import { useDatas } from "../../utils/Hooks"
+
 import "./FormHousing.scss"
 
 function FormHousing({
@@ -30,16 +33,22 @@ function FormHousing({
     inputTags,
     setInputTags,
 }) {
-    const { dataLogin } = useContext(SharedDataLoginContext)
+    const { dataLogin, setDataLogin, setIsLogin } = useContext(
+        SharedDataLoginContext
+    )
+    const { setIsLogout } = useContext(SharedDataLogoutContext)
     const { setIsActiveToastBar, setMessageToastBar } =
         useContext(SharedActiveToastBar)
-    const { id } = useParams() // Récupération de l'idée contenu dans l'url
+    const { id } = useParams() // Récupération de l'id contenu dans l'url
     const navigate = useNavigate()
     const { modifyMode, setModifyMode, toModify, setToModify } = useContext(
         SharedDataModifyHousingContext
     )
+    const { housingsData, loadingHousingsData } = useDatas()
+    const currentURL = window.location.href
 
     //! Amélioration à prévoir : Réalisation d'un hook pour l'ajout d'un élément et un hook pour la suppression d'un élément (suppression de toutes les fonctions handlePicture + handleDelete, ...)
+    //! Ajout d'un hook pour valider l'id des hébérgements
 
     const handlePictureAdd = () => {
         const inputPictureValue = document.getElementById("pictures").value
@@ -100,7 +109,29 @@ function FormHousing({
         newInputTags.splice(index, 1) // Supprime l'élément dans le tableau
         setInputTags(newInputTags)
     }
+    //! Amélioration possible : créer un hook pour les configuration axios pour les instances
+    //Configuration d'axios pour l'ajout d'un intercepteur
+    const instance = axios.create({
+        baseURL: "http://localhost:3001/api/",
+    })
 
+    instance.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            const status = error.response ? error.response.status : null
+            if (status === 401) {
+                // Supprime les éléments validant la connexion
+                window.sessionStorage.removeItem("userData")
+                setIsLogin(false)
+                setDataLogin(null)
+                setIsLogout(true) // Changement de l'état à true pour afficher la toastbar sur la page login
+                navigate("/login") // Redirigez l'utilisateur vers la page de connexion
+            } else {
+                console.error("L'erreur de statut est la suivante :" + status)
+            }
+            return Promise.reject(error)
+        }
+    )
     // const [dataFormulaire, setDataFormulaire] = useState("")
     const onSubmit = (e) => {
         e.preventDefault()
@@ -127,9 +158,9 @@ function FormHousing({
             },
         }
         if (modifyMode) {
-            axios
-                .put(`http://localhost:3001/api/housing/${id}`, housing, config)
-                .then((res) => {
+            instance
+                .put(`/housing/${id}`, housing, config)
+                .then(() => {
                     setModifyMode(false)
                     setMessageToastBar("L'hébérgement a bien été modifié")
                     setIsActiveToastBar(true)
@@ -139,9 +170,9 @@ function FormHousing({
                     console.error(error)
                 })
         } else {
-            axios
-                .post("http://localhost:3001/api/housing", housing, config)
-                .then((res) => {
+            instance
+                .post("/housing", housing, config)
+                .then(() => {
                     setMessageToastBar("L'hébérgement a bien été créé")
                     setIsActiveToastBar(true)
                     navigate("/")
@@ -156,12 +187,13 @@ function FormHousing({
         const toModifyLocalStorage = JSON.parse(
             localStorage.getItem("toModify")
         )
-        const currentURL = window.location.href
-        // Permet d'éviter le GET si on page de création
+
+        // Permet d'éviter le GET si page de création
         if (currentURL === "http://localhost:3000/edition_hebergement") {
             return
         } else {
             if (toModify || toModifyLocalStorage) {
+                // setLoadingDataHousing(true)
                 axios
                     .get(`http://localhost:3001/api/housing/${id}`)
                     .then((res) => {
@@ -194,7 +226,6 @@ function FormHousing({
                     })
             }
         }
-        return
     }, [
         id,
         setInputCover,
@@ -210,7 +241,23 @@ function FormHousing({
         setModifyMode,
         setToModify,
         toModify,
+        currentURL,
     ])
+    useEffect(() => {
+        if (currentURL === "http://localhost:3000/edition_hebergement") {
+            return
+        } else {
+            if (loadingHousingsData && housingsData === undefined) {
+                return
+            } else {
+                const isValid = isValidate(id, housingsData)
+                // Si isValid renvoie false alors redirige vers la page d'erreur
+                if (!isValid) {
+                    navigate("/error")
+                }
+            }
+        }
+    }, [housingsData, loadingHousingsData, id, navigate, currentURL])
 
     return (
         <form className="housingEditorContaineur__form" onSubmit={onSubmit}>
@@ -368,5 +415,12 @@ function FormHousing({
             </button>
         </form>
     )
+}
+
+const isValidate = (id, housingsData) => {
+    //Récupération de tous les ids
+    const idDataHousings = housingsData.map((house) => house._id)
+    //Vérification si id est bien compris dans le tableau des ids
+    return idDataHousings.includes(id)
 }
 export default FormHousing

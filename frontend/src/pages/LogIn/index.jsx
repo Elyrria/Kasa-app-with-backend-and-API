@@ -1,17 +1,29 @@
 import axios from "axios" // Gestion des fetches
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { SharedDataLogoutContext } from "../../utils/Context/UserLogout"
 import { useForm } from "react-hook-form"
+import { Bounce, ToastContainer, toast } from "react-toastify"
 import "../../pages/LogIn/LogIn.scss"
+import "../../styles/customToast.scss"
 
 function LogIn() {
     const navigate = useNavigate()
     const { setIsLogin, setDataLogin } = useContext(SharedDataLoginContext)
+    const { isLogout, setIsLogout } = useContext(SharedDataLogoutContext)
     const [errorMessage, setErrorMessage] = useState("")
     const { register, handleSubmit, formState } = useForm()
     const { errors } = formState //Récupération de l'objet errors
-
+    useEffect(() => {
+        if (isLogout) {
+            const notify = () => toast("Vous n'êtes plus connecté")
+            notify() // Active la toastBar
+            setTimeout(() => {
+                setIsLogout(false)
+            }, 4000)
+        }
+    })
     const onSubmit = (data) => {
         const credentials = {
             email: data.email,
@@ -41,6 +53,22 @@ function LogIn() {
 
     return (
         <main>
+            <div>
+                <ToastContainer
+                    toastClassName="custom-toast"
+                    bodyClassName="custom-toast-body"
+                    progressClassName="custom-progress"
+                    position="top-center"
+                    autoClose={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    theme="light"
+                    transition={Bounce}
+                />
+            </div>
             <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
                 <div className="formContainer__champs">
                     <label className="formContainer__labels" htmlFor="email">
@@ -55,6 +83,7 @@ function LogIn() {
                         {...register("email", {
                             required: "Vous devez rentrez une adresse email",
                             pattern: {
+                                // eslint-disable-next-line no-useless-escape
                                 value: /^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
                                 message: "Format d'adresse mail invalide",
                             },

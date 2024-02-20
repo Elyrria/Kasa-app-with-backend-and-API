@@ -8,11 +8,14 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { SharedDataModifyHousingContext } from "../../utils/Context/ModifyHousing"
 import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
 import { Bounce, ToastContainer, toast } from "react-toastify"
+import { Audio } from "react-loader-spinner"
+import "../../styles/loader.scss"
 import "react-toastify/dist/ReactToastify.css"
 import "./Home.scss"
 import "../../styles/customToast.scss"
 
 function Home() {
+    window.localStorage.removeItem("toModify") // Suppression du token toModify du localStorage
     const { isLogin } = useContext(SharedDataLoginContext)
     const { setModifyMode } = useContext(SharedDataModifyHousingContext)
     const {
@@ -52,7 +55,21 @@ function Home() {
     })
 
     if (loading) {
-        return <div>Chargement...</div>
+        return (
+            <main>
+                <div className="loading">
+                    <Audio
+                        height="80"
+                        width="80"
+                        radius="9"
+                        color="#ff6060"
+                        ariaLabel="loading"
+                        wrapperStyle
+                        wrapperClass
+                    />
+                </div>
+            </main>
+        )
     } else {
         return (
             <main>

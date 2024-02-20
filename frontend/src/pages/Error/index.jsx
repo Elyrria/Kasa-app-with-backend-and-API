@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useEffect } from "react"
 
 function Error() {
+    window.localStorage.removeItem("toModify") // Suppression du token toModify du localStorage
     useEffect(() => {
         document.title = `404 🙈 Not found`
     }, [])
