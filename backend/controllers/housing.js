@@ -1,9 +1,11 @@
 //? Import du module du schema de Housing
 const Housing = require("../models/Housing")
+const { validationResult } = require("express-validator")
+const housingValidationRules = require("../validators/housingValidation")
 //* Export des fonctions de logique métier pour les routes
 exports.creatHousing = (req, res, next) => {
     const housingObject = req.body
-    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité 
+    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité
     const housing = new Housing({
         ...housingObject,
         userId: req.auth.userId,
