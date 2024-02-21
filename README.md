@@ -66,7 +66,7 @@ Démarrer le projet React et développer l’ensemble de l’application, les co
 
 #### Contraintes fonctionnelles :
 
-- Pour le défilement des photos dans la galerie (composant Gallery) :
+* Pour le défilement des photos dans la galerie (composant Gallery) :
 Si l'utilisateur se trouve à la première image et qu'il clique sur "Image précédente", la galerie affiche la dernière image.
 Inversement, quand l'image affichée est la dernière de la galerie, si l'utilisateur clique sur "Image suivante", la galerie affiche la première image.
 S'il n'y a qu'une seule image, les boutons "Suivant" et "Précédent" ainsi que la numérotation n'apparaissent pas.
@@ -101,7 +101,12 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
 * Création d'un serveur avec **node.js** ;
 * Branchement de la base de données à l'API ;
 * Création d'un **app express** pour gérer les différentes requètes envoyé vers le serveur ;
-* Création des différentes **routes** ainsi que de leur **controllers** : - GET ; - GET:id ; - POST ; - PUT ; - DELETE.
+* Création des différentes **routes** ainsi que de leur **controllers** :
+  - GET ;
+  * GET:id ;
+  * POST ;
+  * PUT ;
+  * DELETE.
 * Ajout de la dependance **express-validation** pour sécurisé les données envoyer dans req.body ;
 * Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisteur ;
 * Decryptage du token pour l'authentification avec le jwt (**json-web-token**) ;
@@ -110,6 +115,6 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
 
 ## Lien vers le projet initial 
 
-[GitHub Repo](https://pages.github.com/](https://github.com/Elyrria/Kasa-presentation)
+Lien :[GitHub Repo](https://github.com/Elyrria/Kasa-presentation)
 
 
