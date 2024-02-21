@@ -44,37 +44,35 @@ Démarrer le projet React et développer l’ensemble de l’application, les co
 
 ##### Découpage en composants modulaires et réutilisables :
 
-● Un composant par fichier ;
-● Structure logique des différents fichiers ;
-● Utilisation des props entre les composants ;
-● Utilisation du state dans les composants quand c'est nécessaire ;
-● Gestion des événements ;
-● Listes ;
+- Un composant par fichier ;
+* Structure logique des différents fichiers ;
+* Utilisation des props entre les composants ;
+* Utilisation du state dans les composants quand c'est nécessaire ;
+* Gestion des événements ;
+* Listes.
 
 ##### Recat Routeur :
 
-Les paramètres des routes sont gérés par React Router dans l'URL pour récupérer les informations de chaque logement.
-● Il existe une page par route.
-● La page 404 est renvoyée pour chaque route inexistante, ou si une
-valeur présente dans l’URL ne fait pas partie des données
-renseignées.
-● La logique du routeur est réunie dans un seul fichier.
+- Les paramètres des routes sont gérés par React Router dans l'URL pour récupérer les informations de chaque logement :
+* Il existe une page par route.
+* La page 404 est renvoyée pour chaque route inexistante, ou si une valeur présente dans l’URL ne fait pas partie des données renseignées.
+* La logique du routeur est réunie dans un seul fichier.
 
 ##### Générales :
 
-● Le code ne doit pas produire d'erreur ou de warning dans la console.
-● Styling: Tout le style CSS doit être codé en utilisant Sass.
-● Pas de librairie React externe
+- Le code ne doit pas produire d'erreur ou de warning dans la console.
+* Styling: Tout le style CSS doit être codé en utilisant Sass.
+* Pas de librairie React externe
 
 #### Contraintes fonctionnelles :
 
-● Pour le défilement des photos dans la galerie (composant Gallery) :
+- Pour le défilement des photos dans la galerie (composant Gallery) :
 Si l'utilisateur se trouve à la première image et qu'il clique sur "Image précédente", la galerie affiche la dernière image.
 Inversement, quand l'image affichée est la dernière de la galerie, si l'utilisateur clique sur "Image suivante", la galerie affiche la première image.
 S'il n'y a qu'une seule image, les boutons "Suivant" et "Précédent" ainsi que la numérotation n'apparaissent pas.
 La galerie doit toujours rester de la même hauteur, celle indiquée sur la maquette Figma. Les images seront donc coupées et centrées dans le cadre de l’image.
 
-● Collapse : Par défaut, les Collapses sont fermés à l'initialisation de la page.
+* Collapse : Par défaut, les Collapses sont fermés à l'initialisation de la page.
 Si le Collapse est ouvert, le clic de l'utilisateur permet de le fermer.
 Inversement, si le Collapse est fermé, un clic permet de l'ouvrir.
 
@@ -90,29 +88,28 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
 
 ##### Front-end :
 
-● Ajout d'une **interface de connexion** ;
-● Ajout d'un **intercepteur** pour gérer la deconnexion ;
-● Ajout d'un **loader** pour lest temps de chargement (**react-loader-spinner**
-); 
-● Ajout d'une page pour éditer un hébérgement (ajouter ou modifier) ;
-● Ajout d'un cta dans la page housing permettant de supprimer l'hébérgement en question.
-● Ajout de toast pour afficher un message de validation lors de la création/suppression/modification d'un hébérgement et lorsque l'utilisateur est déconnecté (**React-toastify**)
+- Ajout d'une **interface de connexion** ;
+* Ajout d'un **intercepteur** pour gérer la deconnexion ;
+* Ajout d'un **loader** pour lest temps de chargement (**react-loader-spinner**) ; 
+* Ajout d'une page pour éditer un hébérgement (ajouter ou modifier) ;
+* Ajout d'un cta dans la page housing permettant de supprimer l'hébérgement en question ;
+* Ajout de toast pour afficher un message de validation lors de la création/suppression/modification d'un hébérgement et lorsque l'utilisateur est déconnecté (**React-toastify**).
 
 ##### Back-end :
 
-● Configuration d'une base de données **NoSQL** (**mongoDB**)
-● Création d'un serveur avec **node.js** ;
-● Branchement de la base de données à l'API ;
-● Création d'un **app express** pour gérer les différentes requètes envoyé vers le serveur ;
-● Création des différentes **routes** ainsi que de leur **controllers** : - GET ; - GET:id ; - POST ; - PUT ; - DELETE.
-● Ajout de la dependance **express-validation** pour sécurisé les données envoyer dans req.body ;
-● Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisteur ;
-● Decryptage du token pour l'authentification avec le jwt (**json-web-token**) ;
-● Ajout de **tests d'implémentations** pour tester les différentes routes de l'API ;
-● Ajout d'une documentation swagger de l'API.
+- Configuration d'une base de données **NoSQL** (**mongoDB**)
+* Création d'un serveur avec **node.js** ;
+* Branchement de la base de données à l'API ;
+* Création d'un **app express** pour gérer les différentes requètes envoyé vers le serveur ;
+* Création des différentes **routes** ainsi que de leur **controllers** : - GET ; - GET:id ; - POST ; - PUT ; - DELETE.
+* Ajout de la dependance **express-validation** pour sécurisé les données envoyer dans req.body ;
+* Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisteur ;
+* Decryptage du token pour l'authentification avec le jwt (**json-web-token**) ;
+* Ajout de **tests d'implémentations** pour tester les différentes routes de l'API ;
+* Ajout d'une documentation swagger de l'API.
 
 ## Lien vers le projet initial 
-```
-https://github.com/Elyrria/Kasa-presentation
-```
+
+[GitHub Repo](https://pages.github.com/](https://github.com/Elyrria/Kasa-presentation)
+
 
