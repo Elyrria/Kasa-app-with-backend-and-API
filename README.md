@@ -21,15 +21,14 @@ Le projet a été testé sur node 19.
 ```
 La documentation de l'API avec Swagger http://localhost:3001/api/docs/
 
-Pour lire la documentation, utiliser **Chrome** ou **Firefox**
+Pour lire la documentation, utiliser Chrome ou Firefox
 ```
 
 \*\*Pour valider la connexion :
 
-```
+
 *Adresse mail* : test@test.com
 *Mot de passe* : testtest
-```
 
 # Kasa App
 
@@ -122,7 +121,7 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
 *   Ajout de la dependance **express-validation** pour sécurisé les données envoyer dans req.body ;
 *   Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisteur ;
 *   Decryptage du token pour l'authentification avec le jwt (**json-web-token**) ;
-*   Ajout de **tests d'implémentations** pour tester les différentes routes de l'API (**jest** et **supertest**) ;
+*   Ajout de **tests d'intégration** pour tester les différentes routes de l'API (**jest** et **supertest**) ;
 *   Ajout d'une documentation swagger de l'API.
 
 ## Lien vers le projet initial
