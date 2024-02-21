@@ -16,7 +16,6 @@ const housingValidationRules = [
     body("cover")
         .isString()
         .withMessage("La couverture doit être une chaîne de caractères")
-        .escape()
         .notEmpty()
         .withMessage("La couverture est obligatoire"),
 
@@ -52,11 +51,13 @@ const housingValidationRules = [
         .isString()
         .withMessage("Le nom de l'hôte doit être une chaîne de caractères")
         .escape()
+        .isLength({ max: 50 })
+        .withMessage("Le nom de l'hôte ne doit pas dépasser 50 caractères")
         .notEmpty()
         .withMessage("Le nom de l'hôte est obligatoire"),
     body("host.picture")
         .isString()
-        .withMessage("L'image de l'hôte doit être une chaîne de caractères")
+        .withMessage("L'image doit être une chaîne de caractères")
         .escape()
         .notEmpty()
         .withMessage("L'image de l'hôte est obligatoire"),

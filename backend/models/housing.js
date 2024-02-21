@@ -18,6 +18,3 @@ const housingSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model("Housing", housingSchema)
-
-
-//! Limite maximum de caractère 

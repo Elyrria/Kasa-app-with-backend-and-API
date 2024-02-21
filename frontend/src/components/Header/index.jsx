@@ -5,12 +5,15 @@ import { useContext, useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { SharedDataLoginContext } from "../../utils/Context/UserLogin"
+import { SharedActiveToastBar } from "../../utils/Context/ActiveToastBar"
 
 function Header() {
     const [urlActive, setUrlActive] = useState("")
     const { isLogin, dataLogin, setIsLogin, setDataLogin } = useContext(
         SharedDataLoginContext
     )
+    const { setIsActiveToastBar, setMessageToastBar } =
+        useContext(SharedActiveToastBar)
     const location = useLocation()
     const navigate = useNavigate() // Utilisaton du hook navigate pour la rédirection
 
@@ -47,6 +50,11 @@ function Header() {
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "active" : ""
                         }
+                        //Permet d'éviter de relancer des toastbar lors du clique sur acceuil
+                        onClick={() => {
+                            setIsActiveToastBar(false)
+                            setMessageToastBar("")
+                        }}
                     >
                         Accueil
                     </NavLink>

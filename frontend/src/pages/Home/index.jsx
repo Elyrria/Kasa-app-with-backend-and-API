@@ -26,7 +26,6 @@ function Home() {
     } = useContext(SharedActiveToastBar)
     const [loading, setLoading] = useState(true) // État pour le chargement
     const [housings, setHousings] = useState([])
-
     useEffect(() => {
         document.title = "Home"
         setModifyMode(false)
@@ -42,7 +41,6 @@ function Home() {
                 setLoading(false)
             })
     }, [isActiveToastBar, messageToastBar, setIsActiveToastBar, setModifyMode])
-
     useEffect(() => {
         if (isActiveToastBar) {
             const notify = () => toast(messageToastBar)
@@ -50,7 +48,7 @@ function Home() {
             setTimeout(() => {
                 setIsActiveToastBar(false)
                 setMessageToastBar("")
-            }, 4000)
+            }, 3500)
         }
     })
 

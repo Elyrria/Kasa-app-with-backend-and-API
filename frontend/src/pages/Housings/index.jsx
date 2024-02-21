@@ -164,13 +164,13 @@ function Housings() {
                     {isLogin ? (
                         <div className="manageHousing">
                             <button
-                                className="manageHousing__button"
+                                className="submitButton"
                                 onClick={() => handleModifyHousing(id)}
                             >
                                 Modifier
                             </button>
                             <button
-                                className="manageHousing__button"
+                                className="submitButton"
                                 onClick={() => handleDeletHousing(id)}
                             >
                                 Supprimer

@@ -13,7 +13,7 @@ exports.creatHousing = (req, res, next) => {
     housing
         .save()
         .then(() => {
-            res.status(201).json({ message: "Objet créé !", objet: req.body })
+            res.status(201).json(housing)
         })
         .catch((error) => {
             res.status(400).json({ error })
