@@ -26,7 +26,6 @@ Pour lire la documentation, utiliser Chrome ou Firefox
 
 \*\*Pour valider la connexion :
 
-
 *Adresse mail* : test@test.com
 *Mot de passe* : testtest
 
@@ -91,7 +90,7 @@ Démarrer le projet React et développer l’ensemble de l’application, les co
 
 Ajout d'une partie **CRUD** (create, read, update, delete)
 
-Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérgement.
+Permettre à un modérateur de pouvoir ajouter, supprimer, modifier un hergement.
 
 #### Mes ajouts :
 
@@ -99,11 +98,11 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
 
 -   Ajout d'une **interface de connexion** ;
 
-*   Ajout d'un **intercepteur** pour gérer la deconnexion ;
+*   Ajout d'un **intercepteur** pour gérer la déconnexion ;
 *   Ajout d'un **loader** pour lest temps de chargement (**react-loader-spinner**) ;
-*   Ajout d'une page pour éditer un hébérgement (ajouter ou modifier) ;
-*   Ajout d'un cta dans la page housing permettant de supprimer l'hébérgement en question ;
-*   Ajout de toast pour afficher un message de validation lors de la création/suppression/modification d'un hébérgement et lorsque l'utilisateur est déconnecté (**React-toastify**).
+*   Ajout d'une page pour éditer un hébergement (ajouter ou modifier) ;
+*   Ajout d'un cta dans la page housing permettant de supprimer l'hébergement en question ;
+*   Ajout de toast pour afficher un message de validation lors de la création/suppression/modification d'un hébergement et lorsque l'utilisateur est déconnecté (**React-toastify**).
 
 ##### Back-end :
 
@@ -118,9 +117,9 @@ Permettre à un modérateur de pourvoir ajouter, supprimer, modifier un hébérg
     *   POST ;
     *   PUT ;
     *   DELETE.
-*   Ajout de la dependance **express-validation** pour sécurisé les données envoyer dans req.body ;
-*   Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisteur ;
-*   Decryptage du token pour l'authentification avec le jwt (**json-web-token**) ;
+*   Ajout de la dépendance **express-validation** pour sécuriser les données envoyées dans req.body ;
+*   Hachage du mot de passe avec **bcrypte** lors de l'ajout d'un nouvel utilisateur ;
+*   Decryptage du token pour l'authentification avec jwt (**json-web-token**) ;
 *   Ajout de **tests d'intégration** pour tester les différentes routes de l'API (**jest** et **supertest**) ;
 *   Ajout d'une documentation swagger de l'API.
 

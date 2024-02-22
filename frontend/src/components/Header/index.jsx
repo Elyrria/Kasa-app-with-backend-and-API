@@ -35,7 +35,7 @@ function Header() {
             setIsLogin(true)
             return
         }
-    }, [location, setDataLogin, setIsLogin]) // Effectue l'effet des que l'url change change
+    }, [location, setDataLogin, setIsLogin]) // Effectue l'effet des que l'url change 
 
     return (
         <header className="header">
@@ -50,7 +50,7 @@ function Header() {
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "active" : ""
                         }
-                        //Permet d'éviter de relancer des toastbar lors du clique sur acceuil
+                        //Permet d'éviter de relancer des toastbars lors du clique sur acceuil
                         onClick={() => {
                             setIsActiveToastBar(false)
                             setMessageToastBar("")

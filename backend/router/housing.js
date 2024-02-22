@@ -6,7 +6,7 @@ const auth = require("../middlewares/auth")
 const housingValidationRules = require("../validators/housingValidation")
 const { validationResult } = require("express-validator")
 
-//* Routes pour la partie hébérgement
+//* Routes pour la partie hébergement
 router.post("/", auth, housingValidationRules, async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

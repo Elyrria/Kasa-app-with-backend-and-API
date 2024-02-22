@@ -14,7 +14,7 @@ import { Audio } from "react-loader-spinner"
 import "../../styles/loader.scss"
 import "./Housing.scss"
 
-//! Ajout d'un hook pour valider l'id des hébérgements et d'un hook pour récupérer l'ébérgement avec l'id
+//! Ajout d'un hook pour valider l'id des hébergements et d'un hook pour récupérer l'ébérgement avec l'id
 function Housings() {
     window.localStorage.removeItem("toModify") // Suppression du token toModify du localStorage
     //Récupération des données depuis le context UserContext
@@ -29,7 +29,7 @@ function Housings() {
     const { setIsActiveToastBar, setMessageToastBar } =
         useContext(SharedActiveToastBar)
     const [loadingHousingData, setLoadingHousingData] = useState(true) // État pour le chargement
-    const [housing, setHousing] = useState({}) // Données de l'hébérgement
+    const [housing, setHousing] = useState({}) // Données de l'hébergement
     const { housingsData, loadingHousingsData } = useDatas()
     const navigate = useNavigate()
     const location = useLocation()
@@ -68,7 +68,7 @@ function Housings() {
         instance
             .delete(`/housing/${id}`, config)
             .then(() => {
-                setMessageToastBar("L'hébérgement a bien été supprimé")
+                setMessageToastBar("L'hébergement a bien été supprimé")
                 setIsActiveToastBar(true)
                 navigate("/")
             })

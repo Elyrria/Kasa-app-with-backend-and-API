@@ -4,7 +4,7 @@ import ratingStarGrey from "../../assets/rating-star-grey.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 function HostRatings({ hostRating, hostName, hostPicture }) {
-    const range = [1, 2, 3, 4, 5]
+    const range = [1, 2, 3, 4, 5] // Définir une rang 
     return (
         <div className="ratingContainer">
             <div

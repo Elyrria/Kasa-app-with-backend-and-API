@@ -10,13 +10,13 @@ function Banner({ activeBanner }) {
     return (
         <div className="bannerWrapper">
             <div className="bannerWrapper--opacity"></div>
-            {/* //! Condition qui permet de vérifier si le texte doit être affiché  */}
+            {/*//! Condition qui permet de vérifier si le texte doit être affiché  */}
             {activeBanner === "bannerHome" && (
                 <p className="bannerWrapper__para">
                     Chez vous, partout et ailleurs
                 </p>
             )}
-            {/* //! Condition qui permet de vérifier quelle image afficher dans la banière  */}
+           {/*//! Condition qui permet de vérifier quelle image afficher dans la banière */}
             {activeBanner === "bannerHome" ? (
                 <img
                     className="scaleHome"

@@ -1,6 +1,6 @@
 // Import de l'objet body depuis express-validator
 const { body } = require("express-validator")
-// Règles de validation pour la publication et la modification d'un hébérgement
+// Règles de validation pour la publication et la modification d'un ébergement
 const housingValidationRules = [
     // Titre : chaîne de caractères, obligatoire, échapper les caractères spéciaux
     body("title")

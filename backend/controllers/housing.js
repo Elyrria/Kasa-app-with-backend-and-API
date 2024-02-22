@@ -1,7 +1,5 @@
 //? Import du module du schema de Housing
 const Housing = require("../models/Housing")
-const { validationResult } = require("express-validator")
-const housingValidationRules = require("../validators/housingValidation")
 //* Export des fonctions de logique métier pour les routes
 exports.creatHousing = (req, res, next) => {
     const housingObject = req.body
@@ -22,7 +20,7 @@ exports.creatHousing = (req, res, next) => {
 
 exports.modifyHousing = (req, res, next) => {
     const housingObject = req.body
-    delete housingObject.userId // Suppression du userId pour des raisons de sécurité
+    delete housingObject.userId //! Suppression du userId pour des raisons de sécurité
     Housing.findOne({ _id: req.params.id })
         .then((housing) => {
             if (!housing) {
@@ -42,7 +40,7 @@ exports.modifyHousing = (req, res, next) => {
                     .then(() =>
                         res
                             .status(200)
-                            .json({ message: "Hébérgement modifié !" })
+                            .json({ message: "Hébergement modifié !" })
                     )
                     .catch((error) => {
                         res.status(500).json({ error })
@@ -66,7 +64,7 @@ exports.deleteHousing = (req, res, next) => {
                 Housing.deleteOne({ _id: req.params.id })
                     .then(() => {
                         res.status(200).json({
-                            message: "Hébérgement supprimé !",
+                            message: "Hébergement supprimé !",
                         })
                     })
                     .catch((error) => {

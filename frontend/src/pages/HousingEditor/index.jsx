@@ -10,7 +10,7 @@ import { Audio } from "react-loader-spinner"
 import "../../styles/loader.scss"
 import "../Housings/Housing.scss"
 import "./HousingEditor.scss"
-// Amélioration à prévoir pour éviter d'afficher le contenu : hook pour récupérer les data de l'hébérgement passé en id
+//! Amélioration à prévoir : hook pour récupérer les data de l'hébergement passé en id
 function HousingEditor() {
     const [inputTitle, setInputTitle] = useState("")
     const [inputLocation, setInputLocation] = useState("")
@@ -22,7 +22,7 @@ function HousingEditor() {
     const [inputHostRang, setInputHostRang] = useState("")
     const [inputEquipments, setInputEquipments] = useState([])
     const [inputTags, setInputTags] = useState([])
-    
+
     const { loadingHousingsData } = useDatas()
 
     useEffect(() => {

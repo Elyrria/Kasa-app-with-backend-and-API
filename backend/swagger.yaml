@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
     description: |
-        API du site Kasa. Ici on retrouvera les différentes routes pour la récupération/modification/suppression d'un hébérgement. Mais aussi pour l'authentification.
+        API du site Kasa. Ici on retrouvera les différentes routes pour la récupération/modification/suppression d'un hébergement. Mais aussi pour l'authentification.
     version: "1.0.0"
     title: Kasa App
     contact:
@@ -17,7 +17,7 @@ servers:
     - url: "http://localhost:3001"
 tags:
     - name: housing
-      description: Tous à-propos des hébérgements
+      description: Tous à-propos des hébergements
     - name: user
       description: Opération à-propos des utilisateurs
     - name: about
@@ -27,8 +27,8 @@ paths:
         post:
             tags:
                 - housing
-            summary: Ajout d'un nouvel hébérgement 👌
-            description: Permet de rajouter un hébérgement dans la base de données avec les éléments fourni dans le body de la requête 📖
+            summary: Ajout d'un nouvel hébergement 👌
+            description: Permet de rajouter un hébergement dans la base de données avec les éléments fourni dans le body de la requête 📖
             operationId: addHousing
             parameters:
                 - name: token
@@ -38,7 +38,7 @@ paths:
                       type: string
             responses:
                 "201":
-                    description: Hébérgement créé ✅
+                    description: hébergement créé ✅
                 "400":
                     description: Requête invalide ⛔️
                 "401":
@@ -50,41 +50,41 @@ paths:
                 content:
                     application/json:
                         schema:
-                          type: object
-                          properties:
-                            title:
-                              type: string
-                            cover:
-                              type: string
-                            pictures: 
-                              type: array
-                              items:
-                                type: string
-                            description: 
-                              type: string
-                            host:
-                              type: object
-                              properties: 
-                                name: 
-                                  type: string
-                                picture:    
-                                  type: string
-                                rating: 
-                                  type: number
-                            equipements:
-                              type: array
-                              items:
-                                type: string
-                            tags: 
-                              type: array
-                              items:
-                                type: string 
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                cover:
+                                    type: string
+                                pictures:
+                                    type: array
+                                    items:
+                                        type: string
+                                description:
+                                    type: string
+                                host:
+                                    type: object
+                                    properties:
+                                        name:
+                                            type: string
+                                        picture:
+                                            type: string
+                                        rating:
+                                            type: number
+                                equipements:
+                                    type: array
+                                    items:
+                                        type: string
+                                tags:
+                                    type: array
+                                    items:
+                                        type: string
 
         get:
             tags:
                 - housing
-            summary: Récupèration de tous les hébérgements 📚
-            description: Récupération de tous les hébérgement depuis la base de données 🛜
+            summary: Récupèration de tous les hébergements 📚
+            description: Récupération de tous les hébergement depuis la base de données 🛜
             operationId: findHousings
             responses:
                 "200":
@@ -92,37 +92,37 @@ paths:
                     content:
                         application/json:
                             schema:
-                              type: array
-                              items:
-                                  type: object
-                                  properties:
-                                      title:
-                                          type: string
-                                      cover:
-                                          type: string
-                                      pictures: 
-                                          type: array
-                                          items:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        title:
                                             type: string
-                                      description: 
-                                          type: string
-                                      host:
-                                          type: object
-                                          properties: 
-                                              name: 
-                                                  type: string
-                                              picture:    
-                                                  type: string
-                                      rating: 
-                                          type: number
-                                      equipements:
-                                          type: array
-                                          items:
+                                        cover:
                                             type: string
-                                      tags: 
-                                          type: array
-                                          items:
+                                        pictures:
+                                            type: array
+                                            items:
+                                                type: string
+                                        description:
                                             type: string
+                                        host:
+                                            type: object
+                                            properties:
+                                                name:
+                                                    type: string
+                                                picture:
+                                                    type: string
+                                        rating:
+                                            type: number
+                                        equipements:
+                                            type: array
+                                            items:
+                                                type: string
+                                        tags:
+                                            type: array
+                                            items:
+                                                type: string
                 "400":
                     description: Requête invalide ❌
     /api/housing/{id}:
@@ -132,57 +132,57 @@ paths:
               description: ID de l'hébergement à récupérer
               required: true
               schema:
-                type: string
+                  type: string
         get:
-          tags:
-            - housing
-          summary: Récupèration d'un hébergement avec son id spécifié dans les paramètres de la requête
-          operationId: findOneHousing
-          responses:
-            "200":
-              description: Opération réussite ✅
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      title:
-                        type: string
-                      cover:
-                        type: string
-                      pictures:
-                        type: array
-                        items:
-                          type: string
-                      description:
-                        type: string
-                      host:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          picture:
-                            type: string
-                          rating:
-                            type: number
-                      equipements:
-                        type: array
-                        items:
-                          type: string
-                      tags:
-                        type: array
-                        items:
-                          type: string
-        
-            "400":
-              description: Requête invalide ❌
-            "404":
-              description: Hébergement non trouvé 🤷‍♂
+            tags:
+                - housing
+            summary: Récupèration d'un hébergement avec son id spécifié dans les paramètres de la requête
+            operationId: findOneHousing
+            responses:
+                "200":
+                    description: Opération réussite ✅
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    title:
+                                        type: string
+                                    cover:
+                                        type: string
+                                    pictures:
+                                        type: array
+                                        items:
+                                            type: string
+                                    description:
+                                        type: string
+                                    host:
+                                        type: object
+                                        properties:
+                                            name:
+                                                type: string
+                                            picture:
+                                                type: string
+                                            rating:
+                                                type: number
+                                    equipements:
+                                        type: array
+                                        items:
+                                            type: string
+                                    tags:
+                                        type: array
+                                        items:
+                                            type: string
+
+                "400":
+                    description: Requête invalide ❌
+                "404":
+                    description: Hébergement non trouvé 🤷‍♂
         delete:
             tags:
                 - housing
-            summary: Suppression d'un hébérgement 🛑
-            description: Permet de supprimer un hébérgement avec l'id passé en paramètres ⚙️⚙️⚙️ de la requête ❌
+            summary: Suppression d'un hébergement 🛑
+            description: Permet de supprimer un hébergement avec l'id passé en paramètres ⚙️⚙️⚙️ de la requête ❌
             operationId: deleteHousing
             parameters:
                 - name: token
@@ -198,14 +198,14 @@ paths:
                 "401":
                     description: Droits refusés 🛑️
                 "404":
-                    description: Hébérgement non trouvé 🤷‍♂
+                    description: Hébergement non trouvé 🤷‍♂
             security:
                 - bearerAuth: []
         put:
             tags:
                 - housing
-            summary: Mise à jour d'un hébérgement existant ♻️
-            description: Permet de mettre à jour l'hébérgement spécifié dans les paramètres ⚙️⚙️⚙️ de la requète 👌
+            summary: Mise à jour d'un hébergement existant ♻️
+            description: Permet de mettre à jour l'hébergement spécifié dans les paramètres ⚙️⚙️⚙️ de la requète 👌
             operationId: updateHousing
             parameters:
                 - name: token
@@ -221,7 +221,7 @@ paths:
                 "401":
                     description: Droits refusés 🛑️
                 "404":
-                    description: Hébérgement non trouvé 🤷‍♂
+                    description: hébergement non trouvé 🤷‍♂
             security:
                 - bearerAuth: []
             requestBody:

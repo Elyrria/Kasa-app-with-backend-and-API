@@ -1,7 +1,7 @@
 # dependencies
 /node_modules
-
-#environement 
+package-lock.json
+# environement 
 .env
 
 #config

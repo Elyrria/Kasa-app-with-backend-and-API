@@ -20,7 +20,7 @@ function Card({ cover, title, id }) {
                         {!cover.startsWith("http://") &&
                         !cover.startsWith("https://") ? (
                             <div className="cards__img alternative__text">
-                                Photo de couverture de la carte hébérgement
+                                Photo de couverture de la carte hébergement
                             </div>
                         ) : (
                             <img

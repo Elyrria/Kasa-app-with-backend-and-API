@@ -15,6 +15,7 @@ function LogIn() {
     const [errorMessage, setErrorMessage] = useState("")
     const { register, handleSubmit, formState } = useForm()
     const { errors } = formState //Récupération de l'objet errors
+    
     useEffect(() => {
         if (isLogout) {
             const notify = () => toast("Vous n'êtes plus connecté")

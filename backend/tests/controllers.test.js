@@ -5,9 +5,8 @@ const {
     addHousingRequestCompliant,
 } = require("./housing.test.data")
 //! Récupérer le token de validation en dehors des tests avant d'effectuer **npm test**
-//! L'insérer dans la variable token :
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWQxZTFlNGQ3NjVlMTBmYTRjYzBkZWYiLCJpYXQiOjE3MDg1MzU4NjIsImV4cCI6MTcwODUzOTQ2Mn0.P1JuFJD2RCYzQDiSftV7vctYqlbk3S0MhA-yeWwQ1Cs"
+//! L'insérer entre les "" de la variable token :
+const token = ""
 // Controllers GET :
 describe("GET /api/housing", () => {
     it("should return all housings", async () => {
@@ -433,7 +432,7 @@ describe("DELETE /api/housing/:id", () => {
     it("should return unauthorized", async () => {
         return request(app)
             .delete(`/api/housing/tdchfygjhnyujk622688262888`)
-            .set("Authorization", "Bearer ${token}")
+            .set("Authorization", "hvhbfgnjilwq5442")
             .expect(401)
             .then((res) => {
                 expect(res.statusCode).toBe(401)

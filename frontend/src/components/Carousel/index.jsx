@@ -17,7 +17,7 @@ function Carousel({ pictures, title, id }) {
         <div className="carouselContainer" aria-label="carousel d'images">
             {pictures.length === 0 ? (
                 <div className="alternativeCarousel">
-                    Carousel de photo de l'hébérgement
+                    Carousel de photo de l'hébergement
                 </div>
             ) : (
                 <div className="carouselContainer__carousel">

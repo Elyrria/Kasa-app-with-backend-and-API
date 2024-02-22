@@ -48,7 +48,7 @@ function FormHousing({
     const currentURL = window.location.href
 
     //! Amélioration à prévoir : Réalisation d'un hook pour l'ajout d'un élément et un hook pour la suppression d'un élément (suppression de toutes les fonctions handlePicture + handleDelete, ...)
-    //! Ajout d'un hook pour valider l'id des hébérgements
+    //! Ajout d'un hook pour valider l'id des hébergements
 
     const handlePictureAdd = () => {
         const inputPictureValue = document.getElementById("pictures").value
@@ -151,7 +151,7 @@ function FormHousing({
             tags: inputTags,
         }
         localStorage.removeItem("toModify")
-        //! Amélioration ajouter les configs au userContext
+        //! Amélioration ajouter les configs au userContext ou avec une config hook axios
         const config = {
             headers: {
                 Authorization: `Bearer ${dataLogin.token}`, // Ajouter le token d'autorisation dans l'en-tête
@@ -162,7 +162,7 @@ function FormHousing({
                 .put(`/housing/${id}`, housing, config)
                 .then(() => {
                     setModifyMode(false)
-                    setMessageToastBar("L'hébérgement a bien été modifié")
+                    setMessageToastBar("L'hébergement a bien été modifié")
                     setIsActiveToastBar(true)
                     navigate("/")
                 })
@@ -173,7 +173,7 @@ function FormHousing({
             instance
                 .post("/housing", housing, config)
                 .then(() => {
-                    setMessageToastBar("L'hébérgement a bien été créé")
+                    setMessageToastBar("L'hébergement a bien été créé")
                     setIsActiveToastBar(true)
                     navigate("/")
                 })
@@ -193,7 +193,6 @@ function FormHousing({
             return
         } else {
             if (toModify || toModifyLocalStorage) {
-                // setLoadingDataHousing(true)
                 axios
                     .get(`http://localhost:3001/api/housing/${id}`)
                     .then((res) => {
@@ -287,7 +286,7 @@ function FormHousing({
             />
             <div className="form__addPicture">
                 <div className="form__addPicture-input">
-                    <label htmlFor="pictures">Photos de l'hébérgement :</label>
+                    <label htmlFor="pictures">Photos de l'hébergement :</label>
                     <input
                         type="text"
                         id="pictures"
@@ -315,7 +314,7 @@ function FormHousing({
                     ))}
                 </ul>
             </div>
-            <label htmlFor="description">Description de l'hébérgement :</label>
+            <label htmlFor="description">Description de l'hébergement :</label>
             <textarea
                 type="text"
                 id="description"
@@ -359,7 +358,7 @@ function FormHousing({
             <div className="form__addEquipments">
                 <div className="form__addEquipments-input">
                     <label htmlFor="equipments">
-                        Équipements de l'hébérgement :
+                        Équipements de l'hébergement :
                     </label>
                     <input type="text" id="equipments" name="equipments" />
                     <div className="buttonForm" onClick={handleEquipmentAdd}>
